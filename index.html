@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complete Workout Tracker</title>
+    <title>Complete Workout Tracker Pro</title>
     
     <!-- PWA Settings -->
     <link rel="manifest" href="./manifest.json">
@@ -12,6 +12,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="./logo.png">
     <link rel="icon" type="image/png" href="./logo.png">
+
+    <!-- Chart.js for Progress Graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         * {
@@ -26,6 +29,7 @@
             padding: 15px;
             max-width: 650px;
             margin: auto;
+            padding-bottom: 80px;
         }
         h1 {
             text-align: center;
@@ -37,17 +41,30 @@
             text-align: center;
             color: #00adb5;
             font-weight: bold;
-            margin-bottom: 15px;
-            font-size: 14px;
+            margin-bottom: 12px;
+            font-size: 13px;
             background: #161920;
             padding: 10px;
             border-radius: 6px;
             border: 1px solid #232733;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .quick-tools-btn {
+            background: #232733;
+            border: 1px solid #00adb5;
+            color: #00adb5;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
         }
         .nav-tabs {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             background: #161920;
             border-radius: 8px;
             padding: 5px;
@@ -73,11 +90,11 @@
         .page.active { display: block; }
 
         .category-header {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
-            margin: 20px 0 10px 0;
-            padding: 6px 12px;
-            border-radius: 5px;
+            margin: 15px 0 8px 0;
+            padding: 4px 10px;
+            border-radius: 4px;
             display: inline-block;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -88,15 +105,15 @@
 
         .exercise-card {
             background: #161920;
-            padding: 12px 15px;
+            padding: 12px;
             border-radius: 8px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             border: 1px solid #232733;
         }
         .exercise-title {
             font-size: 14px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: #ffffff;
             display: flex;
             justify-content: space-between;
@@ -105,10 +122,15 @@
         .rest-badge {
             font-size: 11px;
             background: #232733;
-            color: #aaa;
-            padding: 2px 6px;
+            color: #00adb5;
+            padding: 3px 8px;
             border-radius: 4px;
-            font-weight: normal;
+            cursor: pointer;
+            border: 1px solid #00adb544;
+            transition: 0.2s;
+        }
+        .rest-badge:hover {
+            background: #00adb522;
         }
         .set-row {
             display: flex;
@@ -120,7 +142,7 @@
             margin-bottom: 6px;
         }
         .set-label {
-            font-size: 12px;
+            font-size: 11px;
             background: #33394b;
             padding: 2px 6px;
             border-radius: 4px;
@@ -136,15 +158,19 @@
             color: #888;
         }
         .weight-input-group input {
-            width: 60px;
+            width: 65px;
             padding: 5px;
             border-radius: 4px;
             border: 1px solid #33394b;
             background: #0d0f12;
             color: #fff;
             text-align: center;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
+        }
+        .weight-input-group input::placeholder {
+            color: #555;
+            font-size: 11px;
         }
         .save-btn {
             width: 100%;
@@ -154,48 +180,140 @@
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
-            margin: 20px 0;
+            margin: 15px 0;
             color: white;
         }
         .save-btn.back-btn { background: #1e88e5; }
         .save-btn.legs-btn { background: #fb8c00; }
         .save-btn.chest-btn { background: #e53935; }
 
-        .history-section {
+        /* Floating Rest Timer */
+        .timer-bar {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a1e27;
+            border: 1px solid #00adb5;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            border-radius: 30px;
+            padding: 8px 18px;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+        }
+        .timer-text {
+            font-size: 16px;
+            font-weight: bold;
+            color: #00adb5;
+            min-width: 50px;
+            text-align: center;
+        }
+        .timer-btn {
+            background: #232733;
+            border: none;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        /* Analytics & History */
+        .analytics-section, .history-section {
             margin-top: 20px;
             background: #161920;
             padding: 15px;
             border-radius: 8px;
             border: 1px solid #232733;
         }
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
         .history-item {
             border-bottom: 1px solid #232733;
             padding: 10px 0;
             font-size: 12px;
             line-height: 1.6;
+            position: relative;
         }
         .history-item:last-child { border-bottom: none; }
         .history-date { color: #00adb5; font-weight: bold; }
-
-        .install-bar {
-            display: none;
-            background: #00adb5;
-            color: #fff;
-            text-align: center;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-weight: bold;
+        .delete-log-btn {
+            float: right;
+            background: none;
+            border: none;
+            color: #e53935;
             cursor: pointer;
+            font-size: 12px;
+        }
+
+        .data-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .data-btn {
+            flex: 1;
+            background: #232733;
+            border: 1px solid #33394b;
+            color: #aaa;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        /* Modal for 1RM */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background: #161920;
+            border: 1px solid #232733;
+            border-radius: 8px;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+        }
+        .modal-title { font-size: 16px; margin-bottom: 12px; color: #00adb5; font-weight: bold; }
+        .calc-input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            background: #0d0f12;
+            border: 1px solid #33394b;
+            color: white;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
 
-    <div class="install-bar" id="install-btn">📲 Tap to Install App on Home Screen</div>
+    <!-- Floating Timer -->
+    <div class="timer-bar" id="timer-bar">
+        <span>⏱️ Rest:</span>
+        <span class="timer-text" id="timer-display">00:00</span>
+        <button class="timer-btn" onclick="addTimerSeconds(30)">+30s</button>
+        <button class="timer-btn" onclick="stopTimer()">✕</button>
+    </div>
 
     <h1>💪 LEAN & AESTHETIC TRACKER</h1>
-    <div class="day-info" id="day-display">Today: Loading...</div>
+    <div class="day-info">
+        <span id="day-display">Today: Loading...</span>
+        <button class="quick-tools-btn" onclick="open1RMModal()">🧮 1RM Tool</button>
+    </div>
 
     <!-- Navigation Tabs -->
     <div class="nav-tabs">
@@ -208,37 +326,37 @@
     <div id="back-page" class="page">
         <div class="category-header cat-back">BACK</div>
         <div class="exercise-card" data-ex="Lat Pulldown">
-            <div class="exercise-title">1. Shoulder-Width Lat Pulldown <span class="rest-badge">Rest 90-120s</span></div>
+            <div class="exercise-title">1. Shoulder-Width Lat Pulldown <span class="rest-badge" onclick="startTimer(120)">Rest 120s ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">8–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">8–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">8–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
         </div>
         <div class="exercise-card" data-ex="Close-Grip Cable Row">
-            <div class="exercise-title">2. Close-Grip Cable Row <span class="rest-badge">Rest 90-120s</span></div>
+            <div class="exercise-title">2. Close-Grip Cable Row <span class="rest-badge" onclick="startTimer(120)">Rest 120s ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">8–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">8–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">8–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
         </div>
         <div class="exercise-card" data-ex="Single-Arm DB Row">
-            <div class="exercise-title">3. Single-Arm Dumbbell Row <span class="rest-badge">Rest 90s</span></div>
+            <div class="exercise-title">3. Single-Arm Dumbbell Row <span class="rest-badge" onclick="startTimer(90)">Rest 90s ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">10–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">10–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">10–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
         </div>
         <div class="exercise-card" data-ex="Bent Over Row">
-            <div class="exercise-title">4. Bent Over Row <span class="rest-badge">Rest 90s</span></div>
+            <div class="exercise-title">4. Bent Over Row <span class="rest-badge" onclick="startTimer(90)">Rest 90s ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">8–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">8–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">8–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
         </div>
         <div class="exercise-card" data-ex="Deadlift">
-            <div class="exercise-title">5. Deadlift (Mon Heavy, Thu Light/Optional) <span class="rest-badge">Rest 3m</span></div>
+            <div class="exercise-title">5. Deadlift (Heavy/Optional) <span class="rest-badge" onclick="startTimer(180)">Rest 3m ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">4–6 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">4–6 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">4–6 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
         </div>
         <div class="exercise-card" data-ex="Face Pull">
-            <div class="exercise-title">6. Face Pull <span class="rest-badge">Rest 60s</span></div>
+            <div class="exercise-title">6. Face Pull <span class="rest-badge" onclick="startTimer(60)">Rest 60s ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">12–15 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">12–15 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">12–15 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
@@ -246,13 +364,13 @@
 
         <div class="category-header cat-back">TRICEPS</div>
         <div class="exercise-card" data-ex="Overhead Cable Extension">
-            <div class="exercise-title">7. Overhead Cable Extension <span class="rest-badge">Rest 60-90s</span></div>
+            <div class="exercise-title">7. Overhead Cable Extension <span class="rest-badge" onclick="startTimer(90)">Rest 90s ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">10–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">10–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">10–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
         </div>
         <div class="exercise-card" data-ex="Cable Pushdown">
-            <div class="exercise-title">8. Cable Pushdown <span class="rest-badge">Rest 60-90s</span></div>
+            <div class="exercise-title">8. Cable Pushdown <span class="rest-badge" onclick="startTimer(90)">Rest 90s ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">10–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">10–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">10–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
@@ -260,7 +378,7 @@
 
         <div class="category-header cat-back">ABS</div>
         <div class="exercise-card" data-ex="Plank">
-            <div class="exercise-title">9. Plank <span class="rest-badge">Rest 60s</span></div>
+            <div class="exercise-title">9. Plank <span class="rest-badge" onclick="startTimer(60)">Rest 60s ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">45–60 sec</span><div class="weight-input-group"><input type="number" placeholder="0"> sec</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">45–60 sec</span><div class="weight-input-group"><input type="number" placeholder="0"> sec</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">45–60 sec</span><div class="weight-input-group"><input type="number" placeholder="0"> sec</div></div>
@@ -273,32 +391,32 @@
     <div id="leg-page" class="page">
         <div class="category-header cat-legs">LEGS</div>
         <div class="exercise-card" data-ex="Barbell Back Squat">
-            <div class="exercise-title">1. Barbell Back Squat <span class="rest-badge">Rest 2-3m</span></div>
+            <div class="exercise-title">1. Barbell Back Squat <span class="rest-badge" onclick="startTimer(180)">Rest 3m ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">6–8 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">6–8 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">6–8 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 4</span><span class="reps-label">6–8 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
         </div>
         <div class="exercise-card" data-ex="Leg Extension">
-            <div class="exercise-title">2. Leg Extension <span class="rest-badge">Rest 90-120s</span></div>
+            <div class="exercise-title">2. Leg Extension <span class="rest-badge" onclick="startTimer(120)">Rest 120s ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">10–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">10–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">10–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
         </div>
         <div class="exercise-card" data-ex="Romanian Deadlift (RDL)">
-            <div class="exercise-title">3. Romanian Deadlift (RDL) <span class="rest-badge">Rest 2-3m</span></div>
+            <div class="exercise-title">3. Romanian Deadlift (RDL) <span class="rest-badge" onclick="startTimer(180)">Rest 3m ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">8–10 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">8–10 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">8–10 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
         </div>
         <div class="exercise-card" data-ex="Hip Thrust">
-            <div class="exercise-title">4. Hip Thrust <span class="rest-badge">Rest 90-120s</span></div>
+            <div class="exercise-title">4. Hip Thrust <span class="rest-badge" onclick="startTimer(120)">Rest 120s ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">10–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">10–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">10–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
         </div>
         <div class="exercise-card" data-ex="Standing Calf Raise">
-            <div class="exercise-title">5. Standing Calf Raise <span class="rest-badge">Rest 45-60s</span></div>
+            <div class="exercise-title">5. Standing Calf Raise <span class="rest-badge" onclick="startTimer(60)">Rest 60s ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">12–15 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">12–15 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">12–15 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
@@ -307,20 +425,20 @@
 
         <div class="category-header cat-legs">SHOULDERS</div>
         <div class="exercise-card" data-ex="Overhead DB Press">
-            <div class="exercise-title">6. Overhead Dumbbell Press <span class="rest-badge">Rest 2m</span></div>
+            <div class="exercise-title">6. Overhead Dumbbell Press <span class="rest-badge" onclick="startTimer(120)">Rest 2m ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">6–10 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">6–10 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">6–10 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
         </div>
         <div class="exercise-card" data-ex="Cable Lateral Raise">
-            <div class="exercise-title">7. Cable Lateral Raise <span class="rest-badge">Rest 60s</span></div>
+            <div class="exercise-title">7. Cable Lateral Raise <span class="rest-badge" onclick="startTimer(60)">Rest 60s ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">12–15 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">12–15 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">12–15 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 4</span><span class="reps-label">12–15 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
         </div>
         <div class="exercise-card" data-ex="Shrugs">
-            <div class="exercise-title">8. Shrugs <span class="rest-badge">Rest 60s</span></div>
+            <div class="exercise-title">8. Shrugs <span class="rest-badge" onclick="startTimer(60)">Rest 60s ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">12–15 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">12–15 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">12–15 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
@@ -333,26 +451,26 @@
     <div id="chest-page" class="page">
         <div class="category-header cat-chest">CHEST</div>
         <div class="exercise-card" data-ex="Incline DB Press">
-            <div class="exercise-title">1. Incline Dumbbell Press <span class="rest-badge">Rest 2-3m</span></div>
+            <div class="exercise-title">1. Incline Dumbbell Press <span class="rest-badge" onclick="startTimer(180)">Rest 3m ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">6–10 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">6–10 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">6–10 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 4</span><span class="reps-label">6–10 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
         </div>
         <div class="exercise-card" data-ex="Flat Bench Press">
-            <div class="exercise-title">2. Flat Barbell Bench Press <span class="rest-badge">Rest 2-3m</span></div>
+            <div class="exercise-title">2. Flat Barbell Bench Press <span class="rest-badge" onclick="startTimer(180)">Rest 3m ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">6–10 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">6–10 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">6–10 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
         </div>
         <div class="exercise-card" data-ex="Decline Bench Press">
-            <div class="exercise-title">3. Decline Bench Press <span class="rest-badge">Rest 90-120s</span></div>
+            <div class="exercise-title">3. Decline Bench Press <span class="rest-badge" onclick="startTimer(120)">Rest 120s ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">8–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">8–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">8–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
         </div>
         <div class="exercise-card" data-ex="Pec Deck Fly">
-            <div class="exercise-title">4. Pec Deck Fly <span class="rest-badge">Rest 60-90s</span></div>
+            <div class="exercise-title">4. Pec Deck Fly <span class="rest-badge" onclick="startTimer(90)">Rest 90s ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">10–15 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">10–15 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">10–15 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
@@ -360,13 +478,13 @@
 
         <div class="category-header cat-chest">BICEPS</div>
         <div class="exercise-card" data-ex="Incline DB Curl">
-            <div class="exercise-title">5. Incline Dumbbell Curl <span class="rest-badge">Rest 60-90s</span></div>
+            <div class="exercise-title">5. Incline Dumbbell Curl <span class="rest-badge" onclick="startTimer(90)">Rest 90s ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">8–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">8–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">8–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
         </div>
         <div class="exercise-card" data-ex="Hammer Curl">
-            <div class="exercise-title">6. Hammer Curl <span class="rest-badge">Rest 60-90s</span></div>
+            <div class="exercise-title">6. Hammer Curl <span class="rest-badge" onclick="startTimer(90)">Rest 90s ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">10–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">10–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 3</span><span class="reps-label">10–12 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
@@ -374,12 +492,12 @@
 
         <div class="category-header cat-chest">FOREARMS</div>
         <div class="exercise-card" data-ex="Wrist Curl">
-            <div class="exercise-title">7. Wrist Curl <span class="rest-badge">Rest 45-60s</span></div>
+            <div class="exercise-title">7. Wrist Curl <span class="rest-badge" onclick="startTimer(60)">Rest 60s ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">15–20 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">15–20 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
         </div>
         <div class="exercise-card" data-ex="Reverse Wrist Curl">
-            <div class="exercise-title">8. Reverse Wrist Curl <span class="rest-badge">Rest 45-60s</span></div>
+            <div class="exercise-title">8. Reverse Wrist Curl <span class="rest-badge" onclick="startTimer(60)">Rest 60s ⏱️</span></div>
             <div class="set-row"><span class="set-label">Set 1</span><span class="reps-label">15–20 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
             <div class="set-row"><span class="set-label">Set 2</span><span class="reps-label">15–20 Reps</span><div class="weight-input-group"><input type="number" placeholder="0"> kg</div></div>
         </div>
@@ -387,10 +505,36 @@
         <button class="save-btn chest-btn" onclick="saveWorkout('chest', 'Chest + Biceps + Forearms')">Save Chest Workout</button>
     </div>
 
+    <!-- ANALYTICS SECTION -->
+    <div class="analytics-section">
+        <h3 style="font-size: 14px; margin-bottom: 10px; color: #00adb5;">📊 Strength Progress (Last 5 Sessions)</h3>
+        <canvas id="progressChart" height="180"></canvas>
+    </div>
+
     <!-- PROGRESS HISTORY -->
     <div class="history-section">
-        <h3>📈 Weight Progress Log (<span id="active-history-title">Back History</span>)</h3>
+        <div class="history-header">
+            <h3>📈 History (<span id="active-history-title">Log</span>)</h3>
+        </div>
         <div id="history-log">No logged workouts yet.</div>
+
+        <div class="data-actions">
+            <button class="data-btn" onclick="exportData()">💾 Backup Data</button>
+            <button class="data-btn" onclick="document.getElementById('importFile').click()">📂 Restore</button>
+            <input type="file" id="importFile" style="display:none" onchange="importData(event)">
+        </div>
+    </div>
+
+    <!-- 1RM CALCULATOR MODAL -->
+    <div class="modal" id="rmModal">
+        <div class="modal-content">
+            <div class="modal-title">1RM Strength Calculator</div>
+            <input type="number" id="calcWeight" class="calc-input" placeholder="Weight lifted (kg)">
+            <input type="number" id="calcReps" class="calc-input" placeholder="Reps performed (e.g. 5)">
+            <button class="save-btn back-btn" style="margin: 5px 0 10px 0;" onclick="calculate1RM()">Calculate Max</button>
+            <div id="rmResults" style="font-size: 12px; line-height: 1.6; color: #ccc;"></div>
+            <button class="data-btn" style="width: 100%; margin-top: 10px;" onclick="close1RMModal()">Close</button>
+        </div>
     </div>
 
     <script>
@@ -400,8 +544,10 @@
         const currentDayName = days[currentDayIndex];
 
         let currentActiveTab = 'back';
+        let timerInterval = null;
+        let chartInstance = null;
 
-        document.getElementById('day-display').innerText = `Today is ${currentDayName}`;
+        document.getElementById('day-display').innerText = `Today: ${currentDayName}`;
 
         function showPage(pageName) {
             currentActiveTab = pageName;
@@ -416,6 +562,8 @@
             if (targetTab) targetTab.classList.add('active');
 
             renderHistory(pageName);
+            updatePlaceholders(pageName);
+            renderChart();
         }
 
         function autoSelectDayPage() {
@@ -425,33 +573,106 @@
             else { showPage('back'); }
         }
 
+        // REST TIMER LOGIC
+        function startTimer(seconds) {
+            clearInterval(timerInterval);
+            let timeLeft = seconds;
+            const bar = document.getElementById('timer-bar');
+            const display = document.getElementById('timer-display');
+            bar.style.display = 'flex';
+
+            function updateDisplay() {
+                const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+                const s = (timeLeft % 60).toString().padStart(2, '0');
+                display.innerText = `${m}:${s}`;
+            }
+
+            updateDisplay();
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft < 0) {
+                    clearInterval(timerInterval);
+                    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+                    display.innerText = "Done!";
+                    setTimeout(() => { bar.style.display = 'none'; }, 3000);
+                } else {
+                    updateDisplay();
+                }
+            }, 1000);
+        }
+
+        function addTimerSeconds(secs) {
+            const display = document.getElementById('timer-display');
+            let parts = display.innerText.split(':');
+            if (parts.length === 2) {
+                let cur = parseInt(parts[0]) * 60 + parseInt(parts[1]);
+                startTimer(cur + secs);
+            }
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            document.getElementById('timer-bar').style.display = 'none';
+        }
+
+        // AUTO-FILL PREVIOUS WEIGHTS (GHOST VALUES)
+        function updatePlaceholders(categoryKey) {
+            const history = JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || [];
+            const lastLog = history.find(item => item.category === categoryKey);
+            if (!lastLog || !lastLog.parsedData) return;
+
+            const page = document.getElementById(`${categoryKey}-page`);
+            const cards = page.querySelectorAll('.exercise-card');
+
+            cards.forEach(card => {
+                const exName = card.getAttribute('data-ex');
+                const prevValues = lastLog.parsedData[exName];
+                if (prevValues) {
+                    const inputs = card.querySelectorAll('input');
+                    inputs.forEach((inp, idx) => {
+                        if (prevValues[idx] !== undefined) {
+                            inp.placeholder = `Last: ${prevValues[idx]}`;
+                        }
+                    });
+                }
+            });
+        }
+
+        // SAVE WORKOUT
         function saveWorkout(categoryKey, workoutType) {
             const page = document.getElementById(`${categoryKey}-page`);
             if (!page) return;
             const cards = page.querySelectorAll('.exercise-card');
             let workoutSummary = [];
+            let parsedData = {};
 
             cards.forEach(card => {
                 const exName = card.getAttribute('data-ex');
                 const inputs = card.querySelectorAll('input');
                 let setWeights = [];
+                let numericWeights = [];
 
                 inputs.forEach((input, index) => {
-                    const val = input.value !== "" ? input.value : "0";
+                    const val = input.value !== "" ? input.value : (input.placeholder.replace('Last: ', '') || "0");
                     const unit = exName === "Plank" ? "s" : "kg";
                     setWeights.push(`S${index + 1}: ${val}${unit}`);
+                    numericWeights.push(parseFloat(val) || 0);
                 });
 
                 workoutSummary.push(`<b>${exName}</b> [${setWeights.join(', ')}]`);
+                parsedData[exName] = numericWeights;
             });
 
-            const dateStr = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+            const dateStr = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
             
             const logObject = {
+                id: Date.now(),
                 category: categoryKey,
                 type: workoutType,
                 date: dateStr,
-                summary: workoutSummary
+                summary: workoutSummary,
+                parsedData: parsedData
             };
 
             let history = JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || [];
@@ -460,70 +681,148 @@
 
             alert(`${workoutType} Progress Saved!`);
             renderHistory(categoryKey);
+            updatePlaceholders(categoryKey);
+            renderChart();
         }
 
+        // RENDER HISTORY
         function renderHistory(categoryKey) {
             const activeCategory = categoryKey || currentActiveTab;
-            
             const titleMap = {
                 'back': 'Back + Triceps + Abs',
                 'leg': 'Legs + Shoulders',
                 'chest': 'Chest + Biceps + Forearms'
             };
-            const titleElem = document.getElementById('active-history-title');
-            if (titleElem) {
-                titleElem.innerText = titleMap[activeCategory] || 'Current Workout';
-            }
+            document.getElementById('active-history-title').innerText = titleMap[activeCategory] || 'Current';
 
             let history = JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || [];
             const historyContainer = document.getElementById('history-log');
-            if (!historyContainer) return;
 
             const filteredHistory = history.filter(item => item.category === activeCategory);
 
             if (filteredHistory.length === 0) {
-                historyContainer.innerHTML = `<p style="color: #777; margin-top: 10px;">Is workout routine (${titleMap[activeCategory]}) ke liye koi history saved nahi hai.</p>`;
+                historyContainer.innerHTML = `<p style="color: #777; margin-top: 10px;">Koi saved workout nahi mila.</p>`;
                 return;
             }
 
             historyContainer.innerHTML = filteredHistory.map(item => `
                 <div class="history-item">
+                    <button class="delete-log-btn" onclick="deleteLog(${item.id})">🗑️</button>
                     📍 <span class="history-date">${item.date} - ${item.type}</span><br>
                     ${item.summary.join('<br>')}
                 </div>
             `).join('');
         }
 
-        // Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Service Worker Registered!', reg))
-                    .catch(err => console.log('Service Worker Registration Failed!', err));
+        function deleteLog(id) {
+            if (!confirm("Are you sure you want to delete this log?")) return;
+            let history = JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || [];
+            history = history.filter(item => item.id !== id);
+            localStorage.setItem('pwaWorkoutHistoryV2', JSON.stringify(history));
+            renderHistory(currentActiveTab);
+            renderChart();
+        }
+
+        // CHART.JS PROGRESS GRAPH
+        function renderChart() {
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            const history = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || [])
+                .filter(item => item.category === currentActiveTab)
+                .slice(0, 5)
+                .reverse();
+
+            const labels = history.map(item => item.date);
+            let datasets = [];
+
+            if (currentActiveTab === 'back') {
+                datasets.push({
+                    label: 'Lat Pulldown (S1)',
+                    data: history.map(h => (h.parsedData && h.parsedData['Lat Pulldown']) ? h.parsedData['Lat Pulldown'][0] : 0),
+                    borderColor: '#1e88e5',
+                    backgroundColor: '#1e88e5',
+                    tension: 0.2
+                });
+            } else if (currentActiveTab === 'leg') {
+                datasets.push({
+                    label: 'Back Squat (S1)',
+                    data: history.map(h => (h.parsedData && h.parsedData['Barbell Back Squat']) ? h.parsedData['Barbell Back Squat'][0] : 0),
+                    borderColor: '#fb8c00',
+                    backgroundColor: '#fb8c00',
+                    tension: 0.2
+                });
+            } else if (currentActiveTab === 'chest') {
+                datasets.push({
+                    label: 'Bench Press (S1)',
+                    data: history.map(h => (h.parsedData && h.parsedData['Flat Bench Press']) ? h.parsedData['Flat Bench Press'][0] : 0),
+                    borderColor: '#e53935',
+                    backgroundColor: '#e53935',
+                    tension: 0.2
+                });
+            }
+
+            if (chartInstance) chartInstance.destroy();
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: { labels: labels, datasets: datasets },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { labels: { color: '#ccc', font: { size: 11 } } } },
+                    scales: {
+                        y: { grid: { color: '#232733' }, ticks: { color: '#888' } },
+                        x: { grid: { color: '#232733' }, ticks: { color: '#888' } }
+                    }
+                }
             });
         }
 
-        // Install Prompt
-        let deferredPrompt;
-        const installBtn = document.getElementById('install-btn');
+        // 1RM CALCULATOR (Brzycki Formula)
+        function open1RMModal() { document.getElementById('rmModal').style.display = 'flex'; }
+        function close1RMModal() { document.getElementById('rmModal').style.display = 'none'; }
+        function calculate1RM() {
+            const w = parseFloat(document.getElementById('calcWeight').value);
+            const r = parseFloat(document.getElementById('calcReps').value);
+            if (!w || !r || r < 1) return;
+            const oneRM = (w * (36 / (37 - r))).toFixed(1);
+            document.getElementById('rmResults').innerHTML = `
+                <b>Estimated 1RM:</b> ${oneRM} kg<br>
+                <b>Warmups:</b><br>
+                • 50% × 8: ${(oneRM * 0.5).toFixed(1)} kg<br>
+                • 70% × 5: ${(oneRM * 0.7).toFixed(1)} kg<br>
+                • 85% × 3: ${(oneRM * 0.85).toFixed(1)} kg
+            `;
+        }
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            if (installBtn) installBtn.style.display = 'block';
-        });
+        // BACKUP & RESTORE
+        function exportData() {
+            const data = localStorage.getItem('pwaWorkoutHistoryV2') || "[]";
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Workout_Backup_${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+        }
 
-        if (installBtn) {
-            installBtn.addEventListener('click', () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    deferredPrompt.userChoice.then((choiceResult) => {
-                        if (choiceResult.outcome === 'accepted') {
-                            installBtn.style.display = 'none';
-                        }
-                        deferredPrompt = null;
-                    });
+        function importData(event) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    localStorage.setItem('pwaWorkoutHistoryV2', JSON.stringify(parsed));
+                    alert('Data restored successfully!');
+                    showPage(currentActiveTab);
+                } catch(err) {
+                    alert('Invalid JSON file!');
                 }
+            };
+            if (event.target.files[0]) reader.readAsText(event.target.files[0]);
+        }
+
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js');
             });
         }
 
