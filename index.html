@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aesthetic Tracker God-Tier</title>
+    <title>Aesthetic Tracker Royal Blue</title>
     
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#000000">
@@ -16,29 +16,29 @@
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-        :root { --theme-color: #00adb5; --theme-glow: rgba(0, 173, 181, 0.05); }
+        :root { --theme-color: #2563eb; --theme-glow: rgba(37, 99, 235, 0.08); }
         
         * { box-sizing: border-box; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
-        body { background-color: #000000; background-image: radial-gradient(circle at top right, var(--theme-glow), transparent 40%), radial-gradient(circle at bottom left, rgba(0, 230, 118, 0.03), transparent 40%); color: #ffffff; padding: 15px; max-width: 650px; margin: auto; padding-bottom: 95px; min-height: 100vh; transition: background-image 0.5s ease; }
-        h1 { text-align: center; margin-bottom: 5px; font-size: 22px; font-weight: 800; letter-spacing: 1px; background: -webkit-linear-gradient(45deg, var(--theme-color), #00e676); -webkit-background-clip: text; -webkit-text-fill-color: transparent; transition: 0.3s; }
+        body { background-color: #000000; background-image: radial-gradient(circle at top right, var(--theme-glow), transparent 40%), radial-gradient(circle at bottom left, rgba(37, 99, 235, 0.04), transparent 40%); color: #ffffff; padding: 15px; max-width: 650px; margin: auto; padding-bottom: 95px; min-height: 100vh; transition: background-image 0.5s ease; }
+        h1 { text-align: center; margin-bottom: 5px; font-size: 22px; font-weight: 800; letter-spacing: 1px; background: -webkit-linear-gradient(45deg, #3b82f6, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
         .glass-card { background: rgba(20, 20, 20, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); }
 
         .rpg-container { padding: 15px; margin-bottom: 10px; border-left: 3px solid var(--theme-color); transition: border-color 0.3s; }
         .rpg-header { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 800; margin-bottom: 10px; }
-        .rpg-rank { color: var(--theme-color); text-transform: uppercase; letter-spacing: 1.5px; text-shadow: 0 0 10px var(--theme-glow); transition: color 0.3s; }
-        .rpg-level { color: #000; background: #00e676; padding: 3px 10px; border-radius: 20px; box-shadow: 0 0 10px rgba(0,230,118,0.4); }
+        .rpg-rank { color: #60a5fa; text-transform: uppercase; letter-spacing: 1.5px; text-shadow: 0 0 10px rgba(59,130,246,0.4); }
+        .rpg-level { color: #000; background: #3b82f6; padding: 3px 10px; border-radius: 20px; box-shadow: 0 0 10px rgba(59,130,246,0.4); }
         .rpg-bar-bg { width: 100%; height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
-        .rpg-bar-fill { height: 100%; background: linear-gradient(90deg, var(--theme-color), #00e676); width: 0%; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px rgba(0,230,118,0.5); }
+        .rpg-bar-fill { height: 100%; background: linear-gradient(90deg, #2563eb, #60a5fa); width: 0%; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px rgba(59,130,246,0.5); }
         .rpg-stats { text-align: center; font-size: 11px; color: #888; margin-top: 8px; font-weight: 600; }
 
         .bw-tracker { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 8px; border-radius: 8px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05); }
         .bw-tracker input { background: transparent; border: none; color: #fff; font-size: 14px; font-weight: bold; width: 60px; text-align: right; outline: none; }
-        .bw-tracker button { background: rgba(0,173,181,0.2); color: var(--theme-color); border: none; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 11px; cursor: pointer; transition: 0.3s; }
+        .bw-tracker button { background: rgba(59,130,246,0.2); color: #60a5fa; border: none; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 11px; cursor: pointer; transition: 0.3s; }
 
-        .day-info { display: flex; justify-content: space-between; align-items: center; padding: 12px; margin-bottom: 15px; font-size: 13px; color: var(--theme-color); font-weight: bold; flex-wrap: wrap; gap: 10px; transition: color 0.3s; }
+        .day-info { display: flex; justify-content: space-between; align-items: center; padding: 12px; margin-bottom: 15px; font-size: 13px; color: #60a5fa; font-weight: bold; flex-wrap: wrap; gap: 10px; }
         .quick-tools-wrap { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; width: 100%; }
-        .autofill-btn { background: rgba(0, 230, 118, 0.1); border: 1px solid rgba(0, 230, 118, 0.3); color: #00e676; padding: 10px; font-size: 12px; width: 100%; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .autofill-btn { background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); color: #60a5fa; padding: 10px; font-size: 12px; width: 100%; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; }
         
         .nav-tabs { display: flex; justify-content: space-between; margin-bottom: 20px; padding: 5px; gap: 5px; }
         .tab-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #888; padding: 10px 5px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 8px; flex: 1; transition: all 0.3s ease; }
@@ -59,53 +59,50 @@
         .exercise-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: #fff; display: flex; justify-content: space-between; align-items: center; }
         .title-actions { display: flex; align-items: center; gap: 6px; }
         .action-icon-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #aaa; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 12px; }
-        .rest-badge { font-size: 11px; background: rgba(0,173,181,0.1); color: var(--theme-color); padding: 4px 8px; border-radius: 6px; cursor: pointer; border: 1px solid rgba(0,173,181,0.3); font-weight: 600; transition: color 0.3s; }
+        .rest-badge { font-size: 11px; background: rgba(59,130,246,0.1); color: #60a5fa; padding: 4px 8px; border-radius: 6px; cursor: pointer; border: 1px solid rgba(59,130,246,0.3); font-weight: 600; }
         
         .set-row { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 8px; margin-bottom: 8px; transition: all 0.3s ease; border: 1px solid transparent; }
-        .set-row.completed { background: rgba(0,230,118,0.05); border: 1px solid rgba(0,230,118,0.3); box-shadow: inset 0 0 10px rgba(0,230,118,0.1); }
+        .set-row.completed { background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.3); box-shadow: inset 0 0 10px rgba(59,130,246,0.1); }
         .set-label { font-size: 11px; background: rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 4px; font-weight: bold; color: #fff; }
         .reps-label { font-size: 12px; color: #888; font-weight: 600; }
         .weight-input-group { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #888; }
         .weight-input-group input { width: 75px; padding: 6px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.8); color: #fff; text-align: center; font-size: 14px; font-weight: bold; transition: 0.3s; }
-        .weight-input-group input:focus { outline: none; border-color: var(--theme-color); box-shadow: 0 0 10px var(--theme-glow); width: 85px;}
+        .weight-input-group input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 10px rgba(59,130,246,0.3); width: 85px;}
         .weight-input-group input::placeholder { color: #555; font-size: 10px; font-weight: normal; }
         
         .check-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #555; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-        .set-row.completed .check-btn { background: #00e676; border-color: #00e676; color: #000; box-shadow: 0 0 15px rgba(0,230,118,0.4); transform: scale(1.1); }
+        .set-row.completed .check-btn { background: #3b82f6; border-color: #3b82f6; color: #fff; box-shadow: 0 0 15px rgba(59,130,246,0.4); transform: scale(1.1); }
         
         .save-btn { width: 100%; border: none; padding: 14px; font-size: 15px; font-weight: 800; border-radius: 10px; cursor: pointer; margin: 15px 0; color: white; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
-        .save-btn.back-btn { background: linear-gradient(45deg, #1976d2, #42a5f5); box-shadow: 0 4px 15px rgba(30,136,229,0.3); }
+        .save-btn.back-btn { background: linear-gradient(45deg, #1d4ed8, #3b82f6); box-shadow: 0 4px 15px rgba(37,99,235,0.3); }
         .save-btn.legs-btn { background: linear-gradient(45deg, #f57c00, #ffb74d); box-shadow: 0 4px 15px rgba(251,140,0,0.3); }
         .save-btn.chest-btn { background: linear-gradient(45deg, #d32f2f, #ef5350); box-shadow: 0 4px 15px rgba(229,57,53,0.3); }
         .save-btn.add-ex-btn { background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.2); color: #aaa; margin-top: 5px; box-shadow: none; }
         
-        /* Zen Breathing Dynamic Island Timer */
-        .timer-bar { position: fixed; top: 15px; left: 50%; transform: translateX(-50%) translateY(-150px); background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 40px rgba(0,0,0,0.9), 0 0 20px var(--theme-glow); border-radius: 30px; padding: 12px 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; z-index: 9999; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 0; width: 90%; max-width: 320px; }
+        /* Dynamic Island Timer */
+        .timer-bar { position: fixed; top: 15px; left: 50%; transform: translateX(-50%) translateY(-150px); background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 40px rgba(0,0,0,0.9), 0 0 20px rgba(59,130,246,0.3); border-radius: 30px; padding: 12px 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; z-index: 9999; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 0; width: 90%; max-width: 320px; }
         .timer-bar.show { transform: translateX(-50%) translateY(0); opacity: 1; }
         .timer-row { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 10px; }
-        .timer-text { font-size: 20px; font-weight: 800; color: var(--theme-color); min-width: 70px; text-align: center; font-variant-numeric: tabular-nums; }
+        .timer-text { font-size: 20px; font-weight: 800; color: #60a5fa; min-width: 70px; text-align: center; font-variant-numeric: tabular-nums; }
         .timer-btn { background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; cursor: pointer; transition: 0.2s; }
         
-        /* Breathing Circle */
-        .breathing-ring { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--theme-color); display: flex; align-items: center; justify-content: center; font-size: 10px; color: #aaa; transition: transform 4s ease-in-out; animation: breathCycle 8s infinite ease-in-out; }
-        @keyframes breathCycle { 0%, 100% { transform: scale(0.8); border-color: #00adb5; } 50% { transform: scale(1.2); border-color: #00e676; box-shadow: 0 0 15px rgba(0,230,118,0.4); } }
+        .breathing-ring { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #3b82f6; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #aaa; transition: transform 4s ease-in-out; animation: breathCycle 8s infinite ease-in-out; }
+        @keyframes breathCycle { 0%, 100% { transform: scale(0.8); border-color: #3b82f6; } 50% { transform: scale(1.2); border-color: #60a5fa; box-shadow: 0 0 15px rgba(59,130,246,0.4); } }
 
-        /* Analytics, Heatmap & History */
         .analytics-section { padding: 15px; margin-top: 20px; margin-bottom: 20px; }
         .recovery-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; text-align: center;}
         .rec-box { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; font-size: 11px; font-weight: bold; border: 1px solid rgba(255,255,255,0.1); }
         .rec-red { border-color: #ef5350; color: #ef5350; background: rgba(229,57,53,0.1); }
-        .rec-green { border-color: #00e676; color: #00e676; background: rgba(0,230,118,0.1); }
+        .rec-blue { border-color: #3b82f6; color: #60a5fa; background: rgba(59,130,246,0.1); }
 
-        /* GitHub Style Streak Heatmap */
         .heatmap-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 12px; }
         .heatmap-cell { aspect-ratio: 1; background: rgba(255,255,255,0.03); border-radius: 4px; border: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
-        .heatmap-cell.active { background: #00e676; box-shadow: 0 0 8px rgba(0,230,118,0.5); border-color: #00e676; }
+        .heatmap-cell.active { background: #3b82f6; box-shadow: 0 0 8px rgba(59,130,246,0.5); border-color: #3b82f6; }
 
         .history-section { padding: 15px; }
         .history-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 12px 0; font-size: 12px; line-height: 1.6; }
         .history-item:last-child { border-bottom: none; }
-        .history-date { color: var(--theme-color); font-weight: bold; font-size: 13px; }
+        .history-date { color: #60a5fa; font-weight: bold; font-size: 13px; }
         .delete-log-btn { float: right; background: rgba(229,57,53,0.1); border: 1px solid rgba(229,57,53,0.3); border-radius: 6px; padding: 4px 8px; color: #ef5350; cursor: pointer; font-size: 12px; }
         
         .data-actions { display: flex; gap: 10px; margin-top: 15px; }
@@ -113,10 +110,10 @@
         
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); justify-content: center; align-items: center; z-index: 2000; padding: 15px; animation: fadeIn 0.3s ease; }
         .modal-content { background: #0a0c10; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px; width: 100%; max-width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); max-height: 80vh; overflow-y: auto;}
-        .modal-title { font-size: 18px; margin-bottom: 15px; color: var(--theme-color); font-weight: 800; }
+        .modal-title { font-size: 18px; margin-bottom: 15px; color: #60a5fa; font-weight: 800; }
         
         #share-card-wrap { background: linear-gradient(145deg, #0d0f12, #1a1d24); padding: 20px; border-radius: 16px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .share-brand { font-size: 10px; color: var(--theme-color); text-align: center; margin-top: 15px; text-transform: uppercase; letter-spacing: 3px; font-weight: bold; }
+        .share-brand { font-size: 10px; color: #60a5fa; text-align: center; margin-top: 15px; text-transform: uppercase; letter-spacing: 3px; font-weight: bold; }
         
         .chart-container { position: relative; width: 100%; height: 200px; margin-bottom: 10px; }
     </style>
@@ -189,7 +186,7 @@
         <h3 style="font-size: 14px; margin-bottom: 10px; color: #fff; text-align: center; text-transform: uppercase; letter-spacing: 1px;">🕸️ Symmetry Radar</h3>
         <div class="chart-container"><canvas id="radarChart"></canvas></div>
         
-        <h3 style="font-size: 12px; margin-top: 20px; color: #888; text-align: center; text-transform: uppercase;">🔴 Muscle Readiness 🟢</h3>
+        <h3 style="font-size: 12px; margin-top: 20px; color: #888; text-align: center; text-transform: uppercase;">🔴 Muscle Readiness 🔵</h3>
         <div class="recovery-grid" id="recovery-status-grid">
             <div class="rec-box">Back</div><div class="rec-box">Legs</div><div class="rec-box">Chest</div>
         </div>
@@ -233,7 +230,7 @@
         <div class="modal-content" style="text-align: center; padding: 20px;">
             <div id="share-card-wrap">
                 <div style="font-size: 40px; text-align: center; margin-bottom: 5px;">🏆</div>
-                <div style="color: #00e676; font-size: 20px; font-weight: 800; text-align: center; margin-bottom: 15px; text-transform: uppercase;">Workout Complete</div>
+                <div style="color: #3b82f6; font-size: 20px; font-weight: 800; text-align: center; margin-bottom: 15px; text-transform: uppercase;">Workout Complete</div>
                 <div id="celebrationStats" style="font-size: 14px; line-height: 1.8; color: #eee;"></div>
                 <div class="share-brand">Lean & Aesthetic Tracker</div>
             </div>
@@ -289,7 +286,7 @@
         }
 
         function initApp() {
-            if (!localStorage.getItem('userRoutineV3')) localStorage.setItem('userRoutineV3', JSON.stringify(defaultRoutine));
+            if (!localStorage.getItem('userRoutineV4')) localStorage.setItem('userRoutineV4', JSON.stringify(defaultRoutine));
             const bw = localStorage.getItem('userBodyweight');
             if (bw) document.getElementById('bw-input').value = bw;
 
@@ -304,7 +301,7 @@
         async function requestWakeLock() { try { if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } catch (e) {} }
 
         function renderRoutine() {
-            const routine = JSON.parse(localStorage.getItem('userRoutineV3'));
+            const routine = JSON.parse(localStorage.getItem('userRoutineV4'));
             Object.keys(routine).forEach(day => {
                 const container = document.getElementById(`${day}-exercises-container`);
                 if (!container) return;
@@ -343,23 +340,22 @@
         function promptAddExercise(day) {
             const name = prompt("Enter new exercise name:"); if (!name) return;
             const sets = parseInt(prompt("How many sets?", "3")) || 3, reps = prompt("Target reps?", "10-12"), rest = parseInt(prompt("Rest time in seconds?", "90")) || 90;
-            let r = JSON.parse(localStorage.getItem('userRoutineV3')); r[day].push({ name, sets, reps, rest });
-            localStorage.setItem('userRoutineV3', JSON.stringify(r)); renderRoutine();
+            let r = JSON.parse(localStorage.getItem('userRoutineV4')); r[day].push({ name, sets, reps, rest });
+            localStorage.setItem('userRoutineV4', JSON.stringify(r)); renderRoutine();
         }
 
         function deleteExercise(day, index) {
             if (confirm("Remove this exercise?")) {
-                let r = JSON.parse(localStorage.getItem('userRoutineV3')); r[day].splice(index, 1);
-                localStorage.setItem('userRoutineV3', JSON.stringify(r)); renderRoutine();
+                let r = JSON.parse(localStorage.getItem('userRoutineV4')); r[day].splice(index, 1);
+                localStorage.setItem('userRoutineV4', JSON.stringify(r)); renderRoutine();
             }
         }
 
-        // DYNAMIC THEME MORPHING
         function setThemeColors(tab) {
-            let color = '#00adb5', glow = 'rgba(0, 173, 181, 0.05)';
-            if (tab === 'back') { color = '#1e88e5'; glow = 'rgba(30, 136, 229, 0.08)'; }
-            else if (tab === 'leg') { color = '#fb8c00'; glow = 'rgba(251, 140, 0, 0.08)'; }
-            else if (tab === 'chest') { color = '#e53935'; glow = 'rgba(229, 57, 53, 0.08)'; }
+            let color = '#2563eb', glow = 'rgba(37, 99, 235, 0.08)';
+            if (tab === 'back') { color = '#1d4ed8'; glow = 'rgba(29, 78, 216, 0.1)'; }
+            else if (tab === 'leg') { color = '#d97706'; glow = 'rgba(217, 119, 6, 0.1)'; }
+            else if (tab === 'chest') { color = '#dc2626'; glow = 'rgba(220, 38, 38, 0.1)'; }
             
             document.documentElement.style.setProperty('--theme-color', color);
             document.documentElement.style.setProperty('--theme-glow', glow);
@@ -381,7 +377,6 @@
             document.getElementById('day-display').innerText = `Today: ${new Date().toLocaleDateString('en-US', {weekday: 'long'})}`;
         }
 
-        // CLEAN LAST-WEIGHT AUTO-FILL
         function autoFillCurrentDay() {
             if (navigator.vibrate) navigator.vibrate([15, 30, 15]);
             const page = document.getElementById(`${currentActiveTab}-page`);
@@ -453,8 +448,8 @@
         function fireConfetti() {
             var duration = 3 * 1000; var end = Date.now() + duration;
             (function frame() {
-                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#00adb5', '#00e676'] });
-                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#00adb5', '#00e676'] });
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#3b82f6', '#60a5fa'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#3b82f6', '#60a5fa'] });
                 if (Date.now() < end) requestAnimationFrame(frame);
             }());
         }
@@ -465,7 +460,7 @@
             const ranks = [
                 { limit: 0, name: "Iron Novice", color: "#888" }, { limit: 10000, name: "Bronze Warrior", color: "#cd7f32" },
                 { limit: 50000, name: "Silver Spartan", color: "#c0c0c0" }, { limit: 150000, name: "Gold Gladiator", color: "#ffd700" },
-                { limit: 500000, name: "Elite Aesthetic", color: "#00e676" }
+                { limit: 500000, name: "Elite Aesthetic", color: "#3b82f6" }
             ];
             let cur = ranks[0], nxt = ranks[1].limit, lvl = Math.floor(Math.sqrt(totalVol / 1000)) + 1;
             for (let i = 0; i < ranks.length; i++) { if (totalVol >= ranks[i].limit) { cur = ranks[i]; nxt = ranks[i+1] ? ranks[i+1].limit : totalVol; } }
@@ -485,14 +480,13 @@
             grid.innerHTML = '';
             ['back', 'leg', 'chest'].forEach(cat => {
                 const hoursPassed = (now - lastTrained[cat]) / (1000 * 60 * 60);
-                let statusClass = 'rec-green', statusText = 'Fresh';
+                let statusClass = 'rec-blue', statusText = 'Fresh';
                 if (lastTrained[cat] !== 0 && hoursPassed < 48) { statusClass = 'rec-red'; statusText = 'Fatigued'; }
                 let name = cat === 'back' ? 'Back' : cat === 'leg' ? 'Legs' : 'Chest';
                 grid.innerHTML += `<div class="rec-box ${statusClass}">${name}<br><span style="font-size:9px; font-weight:normal;">${statusText}</span></div>`;
             });
         }
 
-        // HEATMAP STREAK
         function renderHeatmap() {
             const grid = document.getElementById('heatmapGrid');
             grid.innerHTML = '';
@@ -553,7 +547,7 @@
             document.getElementById('celebrationStats').innerHTML = `
                 <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>⚡ Routine:</span> <b style="color:var(--theme-color);">${workoutType}</b></div>
                 <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>⏱️ Duration:</span> <b>~${durationMin} mins</b></div>
-                <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>🏋️ Volume:</span> <b style="color:#00e676;">${sessionVolume.toLocaleString()} kg</b></div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>🏋️ Volume:</span> <b style="color:#60a5fa;">${sessionVolume.toLocaleString()} kg</b></div>
                 <div style="display:flex; justify-content:space-between; border-top: 1px solid rgba(255,255,255,0.1); padding-top:8px; margin-top:8px;"><span>🏅 Rank:</span> <b>${document.getElementById('rpg-rank-text').innerText} (${document.getElementById('rpg-level-text').innerText})</b></div>
                 ${prList.length > 0 ? `<div style="margin-top:10px; color:#ffd700; font-size:12px;">🔥 <b>New PRs:</b> ${prList.join(', ')}</div>` : ''}
             `;
@@ -584,9 +578,9 @@
             const ctx = document.getElementById('progressChart').getContext('2d');
             const data = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || []).filter(i => i.category === currentActiveTab).slice(0, 5).reverse();
             let ds = [];
-            if (currentActiveTab === 'back') ds.push({ label: 'Lat Pulldown', data: data.map(h => h.parsedData['Shoulder-Width Lat Pulldown']?.[0]||0), borderColor: '#42a5f5', backgroundColor: 'rgba(66, 165, 245, 0.1)', fill: true, tension: 0.3 });
-            else if (currentActiveTab === 'leg') ds.push({ label: 'Back Squat', data: data.map(h => h.parsedData['Barbell Back Squat']?.[0]||0), borderColor: '#ffb74d', backgroundColor: 'rgba(255, 183, 77, 0.1)', fill: true, tension: 0.3 });
-            else if (currentActiveTab === 'chest') ds.push({ label: 'Bench Press', data: data.map(h => h.parsedData['Flat Barbell Bench Press']?.[0]||0), borderColor: '#ef5350', backgroundColor: 'rgba(239, 83, 80, 0.1)', fill: true, tension: 0.3 });
+            if (currentActiveTab === 'back') ds.push({ label: 'Lat Pulldown', data: data.map(h => h.parsedData['Shoulder-Width Lat Pulldown']?.[0]||0), borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.1)', fill: true, tension: 0.3 });
+            else if (currentActiveTab === 'leg') ds.push({ label: 'Back Squat', data: data.map(h => h.parsedData['Barbell Back Squat']?.[0]||0), borderColor: '#f59e0b', backgroundColor: 'rgba(245, 158, 11, 0.1)', fill: true, tension: 0.3 });
+            else if (currentActiveTab === 'chest') ds.push({ label: 'Bench Press', data: data.map(h => h.parsedData['Flat Barbell Bench Press']?.[0]||0), borderColor: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.1)', fill: true, tension: 0.3 });
             
             if (lineChartInstance) lineChartInstance.destroy();
             lineChartInstance = new Chart(ctx, { type: 'line', data: { labels: data.map(i => i.date), datasets: ds }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true }, x: { grid: { display: false } } } } });
@@ -596,7 +590,7 @@
             let vols = { back: 0, chest: 0, leg: 0 };
             (JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || []).forEach(h => { if(vols[h.category] !== undefined) vols[h.category] += (h.volume || 0); });
             if (radarChartInstance) radarChartInstance.destroy();
-            radarChartInstance = new Chart(ctx, { type: 'radar', data: { labels: ['Back & Pull', 'Legs & Core', 'Chest & Push'], datasets: [{ label: 'Lifetime Volume Allocation', data: [vols.back, vols.leg, vols.chest], backgroundColor: 'rgba(0, 230, 118, 0.2)', borderColor: '#00e676', pointBackgroundColor: '#00adb5', pointBorderColor: '#fff', borderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { r: { angleLines: { color: 'rgba(255,255,255,0.1)' }, grid: { color: 'rgba(255,255,255,0.1)' }, pointLabels: { color: '#ccc', font: { size: 12, weight: 'bold' } }, ticks: { display: false } } } } });
+            radarChartInstance = new Chart(ctx, { type: 'radar', data: { labels: ['Back & Pull', 'Legs & Core', 'Chest & Push'], datasets: [{ label: 'Lifetime Volume Allocation', data: [vols.back, vols.leg, vols.chest], backgroundColor: 'rgba(59, 130, 246, 0.2)', borderColor: '#3b82f6', pointBackgroundColor: '#60a5fa', pointBorderColor: '#fff', borderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { r: { angleLines: { color: 'rgba(255,255,255,0.1)' }, grid: { color: 'rgba(255,255,255,0.1)' }, pointLabels: { color: '#ccc', font: { size: 12, weight: 'bold' } }, ticks: { display: false } } } } });
         }
 
         function shareGraphic() { html2canvas(document.getElementById('share-card-wrap'), { backgroundColor: '#000000', scale: 3 }).then(canvas => { let link = document.createElement('a'); link.download = `Aesthetic_Tracker_${new Date().getTime()}.png`; link.href = canvas.toDataURL("image/png"); link.click(); }); }
