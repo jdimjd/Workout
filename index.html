@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aesthetic Tracker Royal Blue</title>
+    <title>Aesthetic Tracker Pro</title>
     
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#000000">
@@ -16,39 +16,44 @@
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-        :root { --theme-color: #3b82f6; --theme-glow: rgba(59, 130, 246, 0.08); }
+        
+        /* DYNAMIC CSS VARIABLES */
+        :root { 
+            --theme-color: #3b82f6; 
+            --theme-glow: rgba(59, 130, 246, 0.08); 
+            --theme-grad-start: #1d4ed8; 
+            --theme-grad-end: #60a5fa; 
+        }
         
         * { box-sizing: border-box; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
-        /* OLED PURE BLACK BACKGROUND with Royal Blue Glow */
-        body { background-color: #000000; background-image: radial-gradient(circle at top right, var(--theme-glow), transparent 40%), radial-gradient(circle at bottom left, rgba(37, 99, 235, 0.04), transparent 40%); color: #ffffff; padding: 15px; max-width: 650px; margin: auto; padding-bottom: 95px; min-height: 100vh; transition: background-image 0.5s ease; }
         
-        /* Headers & Gradients */
-        h1 { text-align: center; margin-bottom: 5px; font-size: 22px; font-weight: 800; letter-spacing: 1px; background: -webkit-linear-gradient(45deg, #1d4ed8, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; transition: 0.3s; }
+        body { background-color: #000000; background-image: radial-gradient(circle at top right, var(--theme-glow), transparent 40%), radial-gradient(circle at bottom left, var(--theme-glow), transparent 40%); color: #ffffff; padding: 15px; max-width: 650px; margin: auto; padding-bottom: 95px; min-height: 100vh; transition: all 0.5s ease; }
+        
+        h1 { text-align: center; margin-bottom: 5px; font-size: 22px; font-weight: 800; letter-spacing: 1px; background: -webkit-linear-gradient(45deg, var(--theme-grad-start), var(--theme-grad-end)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; transition: 0.5s; }
         
         .glass-card { background: rgba(20, 20, 20, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); }
 
-        /* RPG System UI - Royal Blue Edition */
-        .rpg-container { padding: 15px; margin-bottom: 10px; border-left: 3px solid var(--theme-color); transition: border-color 0.3s; }
+        .rpg-container { padding: 15px; margin-bottom: 10px; border-left: 3px solid var(--theme-color); transition: border-color 0.5s; }
         .rpg-header { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 800; margin-bottom: 10px; }
-        .rpg-rank { color: #60a5fa; text-transform: uppercase; letter-spacing: 1.5px; text-shadow: 0 0 10px rgba(96,165,250,0.4); }
-        .rpg-level { color: #fff; background: #2563eb; padding: 3px 10px; border-radius: 20px; box-shadow: 0 0 10px rgba(37,99,235,0.4); }
+        .rpg-rank { color: var(--theme-grad-end); text-transform: uppercase; letter-spacing: 1.5px; text-shadow: 0 0 10px var(--theme-glow); transition: color 0.5s; }
+        .rpg-level { color: #fff; background: var(--theme-color); padding: 3px 10px; border-radius: 20px; box-shadow: 0 0 10px var(--theme-glow); transition: 0.5s;}
         .rpg-bar-bg { width: 100%; height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
-        .rpg-bar-fill { height: 100%; background: linear-gradient(90deg, #1d4ed8, #60a5fa); width: 0%; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px rgba(59,130,246,0.5); }
+        .rpg-bar-fill { height: 100%; background: linear-gradient(90deg, var(--theme-grad-start), var(--theme-grad-end)); width: 0%; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1), background 0.5s; box-shadow: 0 0 10px var(--theme-glow); }
         .rpg-stats { text-align: center; font-size: 11px; color: #888; margin-top: 8px; font-weight: 600; }
 
         .bw-tracker { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 8px; border-radius: 8px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05); }
         .bw-tracker input { background: transparent; border: none; color: #fff; font-size: 14px; font-weight: bold; width: 60px; text-align: right; outline: none; }
-        .bw-tracker button { background: rgba(59,130,246,0.2); color: #60a5fa; border: none; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 11px; cursor: pointer; transition: 0.3s; }
+        .bw-tracker button { background: var(--theme-glow); color: var(--theme-grad-end); border: none; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 11px; cursor: pointer; transition: 0.3s; }
 
-        .day-info { display: flex; justify-content: space-between; align-items: center; padding: 12px; margin-bottom: 15px; font-size: 13px; color: #60a5fa; font-weight: bold; flex-wrap: wrap; gap: 10px; transition: color 0.3s; }
+        .day-info { display: flex; justify-content: space-between; align-items: center; padding: 12px; margin-bottom: 15px; font-size: 13px; color: var(--theme-color); font-weight: bold; flex-wrap: wrap; gap: 10px; transition: color 0.5s; }
         .quick-tools-wrap { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; width: 100%; }
-        .autofill-btn { background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); color: #60a5fa; padding: 10px; font-size: 12px; width: 100%; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .autofill-btn { background: var(--theme-glow); border: 1px solid var(--theme-glow); color: var(--theme-color); padding: 10px; font-size: 12px; width: 100%; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         
         .nav-tabs { display: flex; justify-content: space-between; margin-bottom: 20px; padding: 5px; gap: 5px; }
         .tab-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #888; padding: 10px 5px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 8px; flex: 1; transition: all 0.3s ease; }
         .tab-btn.active.back-tab { background: rgba(37,99,235,0.15); border-color: #3b82f6; color: #60a5fa; box-shadow: 0 0 15px rgba(59,130,246,0.2); }
-        .tab-btn.active.legs-tab { background: rgba(251,140,0,0.15); border-color: #fb8c00; color: #ffb74d; box-shadow: 0 0 15px rgba(251,140,0,0.2); }
-        .tab-btn.active.chest-tab { background: rgba(229,57,53,0.15); border-color: #e53935; color: #ef5350; box-shadow: 0 0 15px rgba(229,57,53,0.2); }
+        .tab-btn.active.legs-tab { background: rgba(245,158,11,0.15); border-color: #f59e0b; color: #fbbf24; box-shadow: 0 0 15px rgba(245,158,11,0.2); }
+        .tab-btn.active.chest-tab { background: rgba(220,38,38,0.15); border-color: #ef4444; color: #f87171; box-shadow: 0 0 15px rgba(239,68,68,0.2); }
 
         .page { display: none; animation: fadeIn 0.4s ease-out; }
         .page.active { display: block; }
@@ -56,18 +61,17 @@
 
         .category-header { font-size: 12px; font-weight: 800; margin: 15px 0 10px 0; padding: 6px 12px; border-radius: 6px; display: inline-block; text-transform: uppercase; letter-spacing: 2px; }
         .cat-back { background: rgba(59,130,246,0.1); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2); }
-        .cat-legs { background: rgba(251,140,0,0.1); color: #ffb74d; border: 1px solid rgba(251,140,0,0.2); }
-        .cat-chest { background: rgba(229,57,53,0.1); color: #ef5350; border: 1px solid rgba(229,57,53,0.2); }
+        .cat-legs { background: rgba(245,158,11,0.1); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
+        .cat-chest { background: rgba(239,68,68,0.1); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
 
         .exercise-card { padding: 15px; margin-bottom: 12px; }
         .exercise-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: #fff; display: flex; justify-content: space-between; align-items: center; }
         .title-actions { display: flex; align-items: center; gap: 6px; }
         .action-icon-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #aaa; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 12px; }
-        .rest-badge { font-size: 11px; background: rgba(59,130,246,0.1); color: var(--theme-color); padding: 4px 8px; border-radius: 6px; cursor: pointer; border: 1px solid rgba(59,130,246,0.3); font-weight: 600; transition: color 0.3s; }
+        .rest-badge { font-size: 11px; background: var(--theme-glow); color: var(--theme-grad-end); padding: 4px 8px; border-radius: 6px; cursor: pointer; border: 1px solid var(--theme-glow); font-weight: 600; transition: 0.5s; }
         
         .set-row { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 8px; margin-bottom: 8px; transition: all 0.3s ease; border: 1px solid transparent; }
-        /* BLUE COMPLETED STATE */
-        .set-row.completed { background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.3); box-shadow: inset 0 0 10px rgba(59,130,246,0.1); }
+        .set-row.completed { background: var(--theme-glow); border: 1px solid var(--theme-glow); box-shadow: inset 0 0 10px var(--theme-glow); }
         .set-label { font-size: 11px; background: rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 4px; font-weight: bold; color: #fff; }
         .reps-label { font-size: 12px; color: #888; font-weight: 600; }
         .weight-input-group { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #888; }
@@ -76,52 +80,48 @@
         .weight-input-group input::placeholder { color: #555; font-size: 10px; font-weight: normal; }
         
         .check-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #555; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-        /* BLUE CHECK BUTTON */
-        .set-row.completed .check-btn { background: #3b82f6; border-color: #3b82f6; color: #fff; box-shadow: 0 0 15px rgba(59,130,246,0.4); transform: scale(1.1); }
+        .set-row.completed .check-btn { background: var(--theme-color); border-color: var(--theme-color); color: #fff; box-shadow: 0 0 15px var(--theme-glow); transform: scale(1.1); }
         
-        .save-btn { width: 100%; border: none; padding: 14px; font-size: 15px; font-weight: 800; border-radius: 10px; cursor: pointer; margin: 15px 0; color: white; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
-        .save-btn.back-btn { background: linear-gradient(45deg, #1d4ed8, #3b82f6); box-shadow: 0 4px 15px rgba(37,99,235,0.3); }
-        .save-btn.legs-btn { background: linear-gradient(45deg, #f57c00, #ffb74d); box-shadow: 0 4px 15px rgba(251,140,0,0.3); }
-        .save-btn.chest-btn { background: linear-gradient(45deg, #d32f2f, #ef5350); box-shadow: 0 4px 15px rgba(229,57,53,0.3); }
+        .save-btn { width: 100%; border: none; padding: 14px; font-size: 15px; font-weight: 800; border-radius: 10px; cursor: pointer; margin: 15px 0; color: white; transition: 0.5s; text-transform: uppercase; letter-spacing: 1px; }
+        /* Make save buttons dynamically colorized */
+        .save-btn.theme-btn { background: linear-gradient(45deg, var(--theme-grad-start), var(--theme-grad-end)); box-shadow: 0 4px 15px var(--theme-glow); }
         .save-btn.add-ex-btn { background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.2); color: #aaa; margin-top: 5px; box-shadow: none; }
         
         /* Dynamic Island Timer */
-        .timer-bar { position: fixed; top: 15px; left: 50%; transform: translateX(-50%) translateY(-150px); background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 40px rgba(0,0,0,0.9), 0 0 20px rgba(59,130,246,0.3); border-radius: 30px; padding: 12px 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; z-index: 9999; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 0; width: 90%; max-width: 320px; }
+        .timer-bar { position: fixed; top: 15px; left: 50%; transform: translateX(-50%) translateY(-150px); background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 40px rgba(0,0,0,0.9), 0 0 20px var(--theme-glow); border-radius: 30px; padding: 12px 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; z-index: 9999; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.5s; opacity: 0; width: 90%; max-width: 320px; }
         .timer-bar.show { transform: translateX(-50%) translateY(0); opacity: 1; }
         .timer-row { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 10px; }
-        .timer-text { font-size: 20px; font-weight: 800; color: #60a5fa; min-width: 70px; text-align: center; font-variant-numeric: tabular-nums; }
+        .timer-text { font-size: 20px; font-weight: 800; color: var(--theme-color); min-width: 70px; text-align: center; font-variant-numeric: tabular-nums; transition: 0.5s;}
         .timer-btn { background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; cursor: pointer; transition: 0.2s; }
         
-        .breathing-ring { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #3b82f6; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #aaa; transition: transform 4s ease-in-out; animation: breathCycle 8s infinite ease-in-out; }
-        @keyframes breathCycle { 0%, 100% { transform: scale(0.8); border-color: #1d4ed8; } 50% { transform: scale(1.2); border-color: #60a5fa; box-shadow: 0 0 15px rgba(96,165,250,0.4); } }
+        .breathing-ring { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--theme-color); display: flex; align-items: center; justify-content: center; font-size: 10px; color: #aaa; transition: border-color 0.5s ease-in-out, transform 4s ease-in-out; animation: breathCycle 8s infinite ease-in-out; }
+        @keyframes breathCycle { 0%, 100% { transform: scale(0.8); } 50% { transform: scale(1.2); box-shadow: 0 0 15px var(--theme-glow); } }
 
         .analytics-section { padding: 15px; margin-top: 20px; margin-bottom: 20px; }
         .recovery-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; text-align: center;}
         .rec-box { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; font-size: 11px; font-weight: bold; border: 1px solid rgba(255,255,255,0.1); }
-        .rec-red { border-color: #ef5350; color: #ef5350; background: rgba(229,57,53,0.1); }
-        /* BLUE RECOVERY BOX */
-        .rec-blue { border-color: #3b82f6; color: #60a5fa; background: rgba(59,130,246,0.1); }
+        .rec-red { border-color: #ef4444; color: #ef4444; background: rgba(239,68,68,0.1); }
+        .rec-green { border-color: #10b981; color: #10b981; background: rgba(16,185,129,0.1); }
 
-        /* BLUE HEATMAP */
         .heatmap-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 12px; }
-        .heatmap-cell { aspect-ratio: 1; background: rgba(255,255,255,0.03); border-radius: 4px; border: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
-        .heatmap-cell.active { background: #3b82f6; box-shadow: 0 0 8px rgba(59,130,246,0.5); border-color: #3b82f6; }
+        .heatmap-cell { aspect-ratio: 1; background: rgba(255,255,255,0.03); border-radius: 4px; border: 1px solid rgba(255,255,255,0.05); transition: 0.5s; }
+        .heatmap-cell.active { background: var(--theme-color); box-shadow: 0 0 8px var(--theme-glow); border-color: var(--theme-color); }
 
         .history-section { padding: 15px; }
         .history-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 12px 0; font-size: 12px; line-height: 1.6; }
         .history-item:last-child { border-bottom: none; }
-        .history-date { color: #60a5fa; font-weight: bold; font-size: 13px; }
-        .delete-log-btn { float: right; background: rgba(229,57,53,0.1); border: 1px solid rgba(229,57,53,0.3); border-radius: 6px; padding: 4px 8px; color: #ef5350; cursor: pointer; font-size: 12px; }
+        .history-date { color: var(--theme-grad-end); font-weight: bold; font-size: 13px; transition: 0.5s;}
+        .delete-log-btn { float: right; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 6px; padding: 4px 8px; color: #ef4444; cursor: pointer; font-size: 12px; }
         
         .data-actions { display: flex; gap: 10px; margin-top: 15px; }
         .data-btn { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #ccc; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; text-align: center; transition: 0.2s; }
         
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); justify-content: center; align-items: center; z-index: 2000; padding: 15px; animation: fadeIn 0.3s ease; }
         .modal-content { background: #0a0c10; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px; width: 100%; max-width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); max-height: 80vh; overflow-y: auto;}
-        .modal-title { font-size: 18px; margin-bottom: 15px; color: #60a5fa; font-weight: 800; }
+        .modal-title { font-size: 18px; margin-bottom: 15px; color: var(--theme-color); font-weight: 800; transition: 0.5s; }
         
         #share-card-wrap { background: linear-gradient(145deg, #0d0f12, #111827); padding: 20px; border-radius: 16px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .share-brand { font-size: 10px; color: #60a5fa; text-align: center; margin-top: 15px; text-transform: uppercase; letter-spacing: 3px; font-weight: bold; }
+        .share-brand { font-size: 10px; color: var(--theme-grad-end); text-align: center; margin-top: 15px; text-transform: uppercase; letter-spacing: 3px; font-weight: bold; transition: 0.5s;}
         
         .chart-container { position: relative; width: 100%; height: 200px; margin-bottom: 10px; }
     </style>
@@ -134,7 +134,7 @@
             <span style="font-size: 18px;">⏳</span>
             <span class="timer-text" id="timer-display">00:00</span>
             <button class="timer-btn" onclick="addTimerSeconds(30)">+30s</button>
-            <button class="timer-btn" onclick="stopTimer()" style="background: rgba(229,57,53,0.2); color: #ef5350;">✕</button>
+            <button class="timer-btn" onclick="stopTimer()" style="background: rgba(239,68,68,0.2); color: #ef4444;">✕</button>
         </div>
         <div class="breathing-ring" id="breathing-text">Breathe</div>
     </div>
@@ -174,19 +174,19 @@
     <div id="back-page" class="page">
         <div id="back-exercises-container"></div>
         <button class="save-btn add-ex-btn" onclick="promptAddExercise('back')">➕ Add Custom Exercise</button>
-        <button class="save-btn back-btn" onclick="saveWorkout('back', 'Back + Triceps + Abs')">Save Back Workout</button>
+        <button class="save-btn theme-btn" onclick="saveWorkout('back', 'Back + Triceps + Abs')">Save Back Workout</button>
     </div>
 
     <div id="leg-page" class="page">
         <div id="leg-exercises-container"></div>
         <button class="save-btn add-ex-btn" onclick="promptAddExercise('leg')">➕ Add Custom Exercise</button>
-        <button class="save-btn legs-btn" onclick="saveWorkout('leg', 'Legs + Shoulders')">Save Legs Workout</button>
+        <button class="save-btn theme-btn" onclick="saveWorkout('leg', 'Legs + Shoulders')">Save Legs Workout</button>
     </div>
 
     <div id="chest-page" class="page">
         <div id="chest-exercises-container"></div>
         <button class="save-btn add-ex-btn" onclick="promptAddExercise('chest')">➕ Add Custom Exercise</button>
-        <button class="save-btn chest-btn" onclick="saveWorkout('chest', 'Chest + Biceps + Forearms')">Save Chest Workout</button>
+        <button class="save-btn theme-btn" onclick="saveWorkout('chest', 'Chest + Biceps + Forearms')">Save Chest Workout</button>
     </div>
 
     <!-- Symmetry & Recovery -->
@@ -194,7 +194,7 @@
         <h3 style="font-size: 14px; margin-bottom: 10px; color: #fff; text-align: center; text-transform: uppercase; letter-spacing: 1px;">🕸️ Symmetry Radar</h3>
         <div class="chart-container"><canvas id="radarChart"></canvas></div>
         
-        <h3 style="font-size: 12px; margin-top: 20px; color: #888; text-align: center; text-transform: uppercase;">🔴 Muscle Readiness 🔵</h3>
+        <h3 style="font-size: 12px; margin-top: 20px; color: #888; text-align: center; text-transform: uppercase;">🔴 Muscle Readiness 🟢</h3>
         <div class="recovery-grid" id="recovery-status-grid">
             <div class="rec-box">Back</div><div class="rec-box">Legs</div><div class="rec-box">Chest</div>
         </div>
@@ -238,11 +238,11 @@
         <div class="modal-content" style="text-align: center; padding: 20px;">
             <div id="share-card-wrap">
                 <div style="font-size: 40px; text-align: center; margin-bottom: 5px;">🏆</div>
-                <div style="color: #3b82f6; font-size: 20px; font-weight: 800; text-align: center; margin-bottom: 15px; text-transform: uppercase;">Workout Complete</div>
+                <div style="color: var(--theme-grad-end); font-size: 20px; font-weight: 800; text-align: center; margin-bottom: 15px; text-transform: uppercase; transition: 0.5s;">Workout Complete</div>
                 <div id="celebrationStats" style="font-size: 14px; line-height: 1.8; color: #eee;"></div>
                 <div class="share-brand">Lean & Aesthetic Tracker</div>
             </div>
-            <button class="save-btn" style="margin: 0 0 10px 0; background: linear-gradient(45deg, #1d4ed8, #3b82f6);" onclick="shareGraphic()">📸 Save for Instagram</button>
+            <button class="save-btn theme-btn" style="margin: 0 0 10px 0;" onclick="shareGraphic()">📸 Save for Instagram</button>
             <button class="data-btn" style="width: 100%; border: none;" onclick="closeModal('celebrationModal')">Dismiss</button>
         </div>
     </div>
@@ -359,24 +359,36 @@
             }
         }
 
+        // MAGIC UI CHAMELEON FUNCTION
         function setThemeColors(tab) {
-            let color = '#3b82f6', glow = 'rgba(59, 130, 246, 0.08)';
-            if (tab === 'back') { color = '#3b82f6'; glow = 'rgba(59, 130, 246, 0.1)'; }
-            else if (tab === 'leg') { color = '#f59e0b'; glow = 'rgba(245, 158, 11, 0.1)'; }
-            else if (tab === 'chest') { color = '#ef4444'; glow = 'rgba(239, 68, 68, 0.1)'; }
+            let color = '#3b82f6', glow = 'rgba(59, 130, 246, 0.1)', gradStart = '#1d4ed8', gradEnd = '#60a5fa'; // Blue default
+            
+            if (tab === 'leg') { 
+                color = '#f59e0b'; glow = 'rgba(245, 158, 11, 0.1)'; gradStart = '#b45309'; gradEnd = '#fbbf24'; // Orange
+            } 
+            else if (tab === 'chest') { 
+                color = '#ef4444'; glow = 'rgba(239, 68, 68, 0.1)'; gradStart = '#991b1b'; gradEnd = '#f87171'; // Red
+            }
             
             document.documentElement.style.setProperty('--theme-color', color);
             document.documentElement.style.setProperty('--theme-glow', glow);
+            document.documentElement.style.setProperty('--theme-grad-start', gradStart);
+            document.documentElement.style.setProperty('--theme-grad-end', gradEnd);
         }
 
         function showPage(pageName) {
             currentActiveTab = pageName;
-            setThemeColors(pageName);
+            setThemeColors(pageName); // Changes the entire app color dynamically!
+            
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(`${pageName}-page`).classList.add('active');
             document.getElementById(`tab-${pageName}`).classList.add('active');
-            renderHistory(pageName); updatePlaceholders(pageName); renderLineChart();
+            
+            renderHistory(pageName); 
+            updatePlaceholders(pageName); 
+            // Re-render charts so they match the new color
+            setTimeout(() => { renderLineChart(); renderRadarChart(); }, 100);
         }
 
         function autoSelectDayPage() {
@@ -455,9 +467,13 @@
 
         function fireConfetti() {
             var duration = 3 * 1000; var end = Date.now() + duration;
+            // Get the current dynamic color
+            const cColor = getComputedStyle(document.documentElement).getPropertyValue('--theme-color').trim();
+            const cEnd = getComputedStyle(document.documentElement).getPropertyValue('--theme-grad-end').trim();
+            
             (function frame() {
-                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#3b82f6', '#60a5fa'] });
-                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#3b82f6', '#60a5fa'] });
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: [cColor, cEnd, '#ffffff'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: [cColor, cEnd, '#ffffff'] });
                 if (Date.now() < end) requestAnimationFrame(frame);
             }());
         }
@@ -466,14 +482,14 @@
             let totalVol = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || []).reduce((sum, log) => sum + (log.volume || 0), 0);
             document.getElementById('rpg-lifetime-vol').innerText = totalVol.toLocaleString();
             const ranks = [
-                { limit: 0, name: "Iron Novice", color: "#888" }, { limit: 10000, name: "Bronze Warrior", color: "#cd7f32" },
-                { limit: 50000, name: "Silver Spartan", color: "#c0c0c0" }, { limit: 150000, name: "Gold Gladiator", color: "#ffd700" },
-                { limit: 500000, name: "Elite Aesthetic", color: "#3b82f6" }
+                { limit: 0, name: "Iron Novice" }, { limit: 10000, name: "Bronze Warrior" },
+                { limit: 50000, name: "Silver Spartan" }, { limit: 150000, name: "Gold Gladiator" },
+                { limit: 500000, name: "Elite Aesthetic" }
             ];
             let cur = ranks[0], nxt = ranks[1].limit, lvl = Math.floor(Math.sqrt(totalVol / 1000)) + 1;
             for (let i = 0; i < ranks.length; i++) { if (totalVol >= ranks[i].limit) { cur = ranks[i]; nxt = ranks[i+1] ? ranks[i+1].limit : totalVol; } }
             
-            document.getElementById('rpg-rank-text').innerText = cur.name; document.getElementById('rpg-rank-text').style.color = cur.color;
+            document.getElementById('rpg-rank-text').innerText = cur.name; 
             document.getElementById('rpg-level-text').innerText = `Lvl ${lvl}`; document.getElementById('rpg-next-vol').innerText = nxt.toLocaleString();
             document.getElementById('rpg-progress-bar').style.width = `${totalVol >= 500000 ? 100 : ((totalVol - cur.limit) / (nxt - cur.limit)) * 100}%`;
         }
@@ -488,7 +504,7 @@
             grid.innerHTML = '';
             ['back', 'leg', 'chest'].forEach(cat => {
                 const hoursPassed = (now - lastTrained[cat]) / (1000 * 60 * 60);
-                let statusClass = 'rec-blue', statusText = 'Fresh';
+                let statusClass = 'rec-green', statusText = 'Fresh';
                 if (lastTrained[cat] !== 0 && hoursPassed < 48) { statusClass = 'rec-red'; statusText = 'Fatigued'; }
                 let name = cat === 'back' ? 'Back' : cat === 'leg' ? 'Legs' : 'Chest';
                 grid.innerHTML += `<div class="rec-box ${statusClass}">${name}<br><span style="font-size:9px; font-weight:normal;">${statusText}</span></div>`;
@@ -555,7 +571,7 @@
             document.getElementById('celebrationStats').innerHTML = `
                 <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>⚡ Routine:</span> <b style="color:var(--theme-color);">${workoutType}</b></div>
                 <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>⏱️ Duration:</span> <b>~${durationMin} mins</b></div>
-                <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>🏋️ Volume:</span> <b style="color:#60a5fa;">${sessionVolume.toLocaleString()} kg</b></div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>🏋️ Volume:</span> <b style="color:var(--theme-grad-end);">${sessionVolume.toLocaleString()} kg</b></div>
                 <div style="display:flex; justify-content:space-between; border-top: 1px solid rgba(255,255,255,0.1); padding-top:8px; margin-top:8px;"><span>🏅 Rank:</span> <b>${document.getElementById('rpg-rank-text').innerText} (${document.getElementById('rpg-level-text').innerText})</b></div>
                 ${prList.length > 0 ? `<div style="margin-top:10px; color:#ffd700; font-size:12px;">🔥 <b>New PRs:</b> ${prList.join(', ')}</div>` : ''}
             `;
@@ -585,20 +601,30 @@
         function renderLineChart() {
             const ctx = document.getElementById('progressChart').getContext('2d');
             const data = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || []).filter(i => i.category === currentActiveTab).slice(0, 5).reverse();
+            
+            // Get dynamic colors
+            const tColor = getComputedStyle(document.documentElement).getPropertyValue('--theme-color').trim();
+            const tGlow = getComputedStyle(document.documentElement).getPropertyValue('--theme-glow').trim();
+
             let ds = [];
-            if (currentActiveTab === 'back') ds.push({ label: 'Lat Pulldown', data: data.map(h => h.parsedData['Shoulder-Width Lat Pulldown']?.[0]||0), borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.1)', fill: true, tension: 0.3 });
-            else if (currentActiveTab === 'leg') ds.push({ label: 'Back Squat', data: data.map(h => h.parsedData['Barbell Back Squat']?.[0]||0), borderColor: '#f59e0b', backgroundColor: 'rgba(245, 158, 11, 0.1)', fill: true, tension: 0.3 });
-            else if (currentActiveTab === 'chest') ds.push({ label: 'Bench Press', data: data.map(h => h.parsedData['Flat Barbell Bench Press']?.[0]||0), borderColor: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.1)', fill: true, tension: 0.3 });
+            if (currentActiveTab === 'back') ds.push({ label: 'Lat Pulldown', data: data.map(h => h.parsedData['Shoulder-Width Lat Pulldown']?.[0]||0), borderColor: tColor, backgroundColor: tGlow, fill: true, tension: 0.3 });
+            else if (currentActiveTab === 'leg') ds.push({ label: 'Back Squat', data: data.map(h => h.parsedData['Barbell Back Squat']?.[0]||0), borderColor: tColor, backgroundColor: tGlow, fill: true, tension: 0.3 });
+            else if (currentActiveTab === 'chest') ds.push({ label: 'Bench Press', data: data.map(h => h.parsedData['Flat Barbell Bench Press']?.[0]||0), borderColor: tColor, backgroundColor: tGlow, fill: true, tension: 0.3 });
             
             if (lineChartInstance) lineChartInstance.destroy();
             lineChartInstance = new Chart(ctx, { type: 'line', data: { labels: data.map(i => i.date), datasets: ds }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true }, x: { grid: { display: false } } } } });
         }
+        
         function renderRadarChart() {
             const ctx = document.getElementById('radarChart').getContext('2d');
             let vols = { back: 0, chest: 0, leg: 0 };
             (JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || []).forEach(h => { if(vols[h.category] !== undefined) vols[h.category] += (h.volume || 0); });
+            
+            const tColor = getComputedStyle(document.documentElement).getPropertyValue('--theme-color').trim();
+            const tGlow = getComputedStyle(document.documentElement).getPropertyValue('--theme-glow').trim();
+
             if (radarChartInstance) radarChartInstance.destroy();
-            radarChartInstance = new Chart(ctx, { type: 'radar', data: { labels: ['Back & Pull', 'Legs & Core', 'Chest & Push'], datasets: [{ label: 'Lifetime Volume Allocation', data: [vols.back, vols.leg, vols.chest], backgroundColor: 'rgba(59, 130, 246, 0.2)', borderColor: '#3b82f6', pointBackgroundColor: '#60a5fa', pointBorderColor: '#fff', borderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { r: { angleLines: { color: 'rgba(255,255,255,0.1)' }, grid: { color: 'rgba(255,255,255,0.1)' }, pointLabels: { color: '#ccc', font: { size: 12, weight: 'bold' } }, ticks: { display: false } } } } });
+            radarChartInstance = new Chart(ctx, { type: 'radar', data: { labels: ['Back & Pull', 'Legs & Core', 'Chest & Push'], datasets: [{ label: 'Lifetime Volume Allocation', data: [vols.back, vols.leg, vols.chest], backgroundColor: tGlow, borderColor: tColor, pointBackgroundColor: tColor, pointBorderColor: '#fff', borderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { r: { angleLines: { color: 'rgba(255,255,255,0.1)' }, grid: { color: 'rgba(255,255,255,0.1)' }, pointLabels: { color: '#ccc', font: { size: 12, weight: 'bold' } }, ticks: { display: false } } } } });
         }
 
         function shareGraphic() { html2canvas(document.getElementById('share-card-wrap'), { backgroundColor: '#000000', scale: 3 }).then(canvas => { let link = document.createElement('a'); link.download = `Aesthetic_Tracker_${new Date().getTime()}.png`; link.href = canvas.toDataURL("image/png"); link.click(); }); }
