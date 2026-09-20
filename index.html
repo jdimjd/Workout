@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aesthetic Tracker Pro</title>
+    <title>Elite Aesthetic Tracker</title>
     
     <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#000000">
+    <meta name="theme-color" content="#050505">
     <link rel="apple-touch-icon" href="./logo.png">
     <link rel="icon" type="image/png" href="./logo.png">
 
@@ -15,115 +15,121 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
         
-        /* DYNAMIC CSS VARIABLES */
+        /* DYNAMIC ELITE CSS VARIABLES */
         :root { 
-            --theme-color: #3b82f6; 
-            --theme-glow: rgba(59, 130, 246, 0.08); 
-            --theme-grad-start: #1d4ed8; 
-            --theme-grad-end: #60a5fa; 
+            --theme-color: #1e3a8a; /* Navy Blue Base */
+            --theme-glow: rgba(30, 58, 138, 0.15); 
+            --theme-bg-subtle: rgba(30, 58, 138, 0.05);
+            --theme-grad-start: #172554; 
+            --theme-grad-end: #1e40af; 
+            --text-muted: #a1a1aa;
+            --surface-bg: rgba(24, 24, 27, 0.6);
         }
         
         * { box-sizing: border-box; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
         
-        body { background-color: #000000; background-image: radial-gradient(circle at top right, var(--theme-glow), transparent 40%), radial-gradient(circle at bottom left, var(--theme-glow), transparent 40%); color: #ffffff; padding: 15px; max-width: 650px; margin: auto; padding-bottom: 95px; min-height: 100vh; transition: all 0.5s ease; }
+        body { background-color: #050505; background-image: radial-gradient(circle at top right, var(--theme-bg-subtle), transparent 50%), radial-gradient(circle at bottom left, var(--theme-bg-subtle), transparent 50%); color: #fafafa; padding: 15px; max-width: 650px; margin: auto; padding-bottom: 95px; min-height: 100vh; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
         
-        h1 { text-align: center; margin-bottom: 5px; font-size: 22px; font-weight: 800; letter-spacing: 1px; background: -webkit-linear-gradient(45deg, var(--theme-grad-start), var(--theme-grad-end)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; transition: 0.5s; }
+        h1 { text-align: center; margin-bottom: 5px; font-size: 24px; font-weight: 800; letter-spacing: -0.5px; background: -webkit-linear-gradient(45deg, var(--theme-grad-start), var(--theme-grad-end)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; transition: 0.6s; }
         
-        .glass-card { background: rgba(20, 20, 20, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); }
+        .glass-card { background: var(--surface-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 16px; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2); }
 
-        .rpg-container { padding: 15px; margin-bottom: 10px; border-left: 3px solid var(--theme-color); transition: border-color 0.5s; }
-        .rpg-header { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 800; margin-bottom: 10px; }
-        .rpg-rank { color: var(--theme-grad-end); text-transform: uppercase; letter-spacing: 1.5px; text-shadow: 0 0 10px var(--theme-glow); transition: color 0.5s; }
-        .rpg-level { color: #fff; background: var(--theme-color); padding: 3px 10px; border-radius: 20px; box-shadow: 0 0 10px var(--theme-glow); transition: 0.5s;}
-        .rpg-bar-bg { width: 100%; height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
-        .rpg-bar-fill { height: 100%; background: linear-gradient(90deg, var(--theme-grad-start), var(--theme-grad-end)); width: 0%; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1), background 0.5s; box-shadow: 0 0 10px var(--theme-glow); }
-        .rpg-stats { text-align: center; font-size: 11px; color: #888; margin-top: 8px; font-weight: 600; }
+        .rpg-container { padding: 18px; margin-bottom: 12px; border-left: 4px solid var(--theme-color); transition: border-color 0.6s; }
+        .rpg-header { display: flex; justify-content: space-between; align-items: center; font-size: 15px; font-weight: 800; margin-bottom: 12px; }
+        .rpg-rank { color: var(--theme-grad-end); text-transform: uppercase; letter-spacing: 2px; transition: color 0.6s; font-size: 13px;}
+        .rpg-level { color: #fff; background: var(--theme-grad-end); padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 12px; transition: 0.6s; box-shadow: 0 0 12px var(--theme-glow);}
+        .rpg-bar-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 6px; overflow: hidden; }
+        .rpg-bar-fill { height: 100%; background: linear-gradient(90deg, var(--theme-grad-start), var(--theme-grad-end)); width: 0%; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1), background 0.6s; box-shadow: 0 0 10px var(--theme-glow); }
+        .rpg-stats { text-align: center; font-size: 11px; color: var(--text-muted); margin-top: 10px; font-weight: 500; letter-spacing: 0.5px;}
 
-        .bw-tracker { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 8px; border-radius: 8px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05); }
-        .bw-tracker input { background: transparent; border: none; color: #fff; font-size: 14px; font-weight: bold; width: 60px; text-align: right; outline: none; }
-        .bw-tracker button { background: var(--theme-glow); color: var(--theme-grad-end); border: none; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 11px; cursor: pointer; transition: 0.3s; }
+        .bw-tracker { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; margin-bottom: 15px; }
+        .bw-tracker input { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); color: #fff; font-size: 15px; font-weight: 700; width: 70px; text-align: center; border-radius: 8px; padding: 6px; outline: none; transition: 0.3s;}
+        .bw-tracker input:focus { border-color: var(--theme-color); }
+        .bw-tracker button { background: var(--theme-bg-subtle); color: var(--theme-grad-end); border: 1px solid var(--theme-glow); padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; transition: 0.3s; }
+        .bw-tracker button:hover { background: var(--theme-glow); }
 
-        .day-info { display: flex; justify-content: space-between; align-items: center; padding: 12px; margin-bottom: 15px; font-size: 13px; color: var(--theme-color); font-weight: bold; flex-wrap: wrap; gap: 10px; transition: color 0.5s; }
-        .quick-tools-wrap { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; width: 100%; }
-        .autofill-btn { background: var(--theme-glow); border: 1px solid var(--theme-glow); color: var(--theme-color); padding: 10px; font-size: 12px; width: 100%; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .day-info { display: flex; justify-content: space-between; align-items: center; padding: 15px; margin-bottom: 15px; font-size: 14px; color: var(--theme-color); font-weight: 700; flex-wrap: wrap; gap: 10px; transition: color 0.6s; }
+        .quick-tools-wrap { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; width: 100%; }
+        .autofill-btn { background: var(--theme-bg-subtle); border: 1px solid var(--theme-glow); color: var(--theme-grad-end); padding: 12px; font-size: 13px; width: 100%; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;}
+        .autofill-btn:hover { background: var(--theme-glow); transform: translateY(-1px);}
         
-        .nav-tabs { display: flex; justify-content: space-between; margin-bottom: 20px; padding: 5px; gap: 5px; }
-        .tab-btn { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #888; padding: 10px 5px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 8px; flex: 1; transition: all 0.3s ease; }
-        .tab-btn.active.back-tab { background: rgba(37,99,235,0.15); border-color: #3b82f6; color: #60a5fa; box-shadow: 0 0 15px rgba(59,130,246,0.2); }
-        .tab-btn.active.legs-tab { background: rgba(245,158,11,0.15); border-color: #f59e0b; color: #fbbf24; box-shadow: 0 0 15px rgba(245,158,11,0.2); }
-        .tab-btn.active.chest-tab { background: rgba(220,38,38,0.15); border-color: #ef4444; color: #f87171; box-shadow: 0 0 15px rgba(239,68,68,0.2); }
+        .nav-tabs { display: flex; justify-content: space-between; margin-bottom: 20px; padding: 6px; gap: 6px; background: rgba(0,0,0,0.4); border-radius: 14px; border: 1px solid rgba(255,255,255,0.03);}
+        .tab-btn { background: transparent; border: none; color: var(--text-muted); padding: 12px 5px; font-size: 12px; font-weight: 600; cursor: pointer; border-radius: 10px; flex: 1; transition: all 0.4s ease; text-align: center; line-height: 1.4;}
+        .tab-btn.active { background: var(--theme-bg-subtle); color: var(--theme-grad-end); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
 
-        .page { display: none; animation: fadeIn 0.4s ease-out; }
+        .page { display: none; animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        .category-header { font-size: 12px; font-weight: 800; margin: 15px 0 10px 0; padding: 6px 12px; border-radius: 6px; display: inline-block; text-transform: uppercase; letter-spacing: 2px; }
-        .cat-back { background: rgba(59,130,246,0.1); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2); }
-        .cat-legs { background: rgba(245,158,11,0.1); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
-        .cat-chest { background: rgba(239,68,68,0.1); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+        .category-header { font-size: 11px; font-weight: 800; margin: 15px 0 12px 0; padding: 6px 14px; border-radius: 20px; display: inline-block; text-transform: uppercase; letter-spacing: 2px; background: var(--theme-bg-subtle); color: var(--theme-grad-end); border: 1px solid var(--theme-glow); transition: 0.6s; }
 
-        .exercise-card { padding: 15px; margin-bottom: 12px; }
-        .exercise-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: #fff; display: flex; justify-content: space-between; align-items: center; }
-        .title-actions { display: flex; align-items: center; gap: 6px; }
-        .action-icon-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #aaa; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 12px; }
-        .rest-badge { font-size: 11px; background: var(--theme-glow); color: var(--theme-grad-end); padding: 4px 8px; border-radius: 6px; cursor: pointer; border: 1px solid var(--theme-glow); font-weight: 600; transition: 0.5s; }
+        .exercise-card { padding: 18px; margin-bottom: 15px; }
+        .exercise-title { font-size: 15px; font-weight: 700; margin-bottom: 15px; color: #fff; display: flex; justify-content: space-between; align-items: center; letter-spacing: -0.3px;}
+        .title-actions { display: flex; align-items: center; gap: 8px; }
+        .action-icon-btn { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 12px; transition: 0.2s;}
+        .action-icon-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .rest-badge { font-size: 11px; background: var(--theme-bg-subtle); color: var(--theme-grad-end); padding: 6px 10px; border-radius: 8px; cursor: pointer; border: 1px solid var(--theme-glow); font-weight: 700; transition: 0.6s; }
         
-        .set-row { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 8px; margin-bottom: 8px; transition: all 0.3s ease; border: 1px solid transparent; }
-        .set-row.completed { background: var(--theme-glow); border: 1px solid var(--theme-glow); box-shadow: inset 0 0 10px var(--theme-glow); }
-        .set-label { font-size: 11px; background: rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 4px; font-weight: bold; color: #fff; }
-        .reps-label { font-size: 12px; color: #888; font-weight: 600; }
-        .weight-input-group { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #888; }
-        .weight-input-group input { width: 75px; padding: 6px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.8); color: #fff; text-align: center; font-size: 14px; font-weight: bold; transition: 0.3s; }
-        .weight-input-group input:focus { outline: none; border-color: var(--theme-color); box-shadow: 0 0 10px var(--theme-glow); width: 85px;}
-        .weight-input-group input::placeholder { color: #555; font-size: 10px; font-weight: normal; }
+        .set-row { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 10px 14px; border-radius: 10px; margin-bottom: 8px; transition: all 0.3s ease; border: 1px solid transparent; }
         
-        .check-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #555; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-        .set-row.completed .check-btn { background: var(--theme-color); border-color: var(--theme-color); color: #fff; box-shadow: 0 0 15px var(--theme-glow); transform: scale(1.1); }
+        /* HARDCODED GREEN FOR COMPLETED SETS */
+        .set-row.completed { background: rgba(0, 230, 118, 0.05); border-color: rgba(0, 230, 118, 0.2); border-left: 3px solid #00e676; }
+        .set-label { font-size: 12px; background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 6px; font-weight: 700; color: #fff; }
+        .reps-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+        .weight-input-group { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); }
+        .weight-input-group input { width: 75px; padding: 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.5); color: #fff; text-align: center; font-size: 15px; font-weight: 700; transition: 0.3s; }
+        .weight-input-group input:focus { outline: none; border-color: var(--theme-color); background: rgba(0,0,0,0.8); width: 85px;}
+        .weight-input-group input::placeholder { color: #555; font-size: 11px; font-weight: 500; }
         
-        .save-btn { width: 100%; border: none; padding: 14px; font-size: 15px; font-weight: 800; border-radius: 10px; cursor: pointer; margin: 15px 0; color: white; transition: 0.5s; text-transform: uppercase; letter-spacing: 1px; }
-        /* Make save buttons dynamically colorized */
-        .save-btn.theme-btn { background: linear-gradient(45deg, var(--theme-grad-start), var(--theme-grad-end)); box-shadow: 0 4px 15px var(--theme-glow); }
-        .save-btn.add-ex-btn { background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.2); color: #aaa; margin-top: 5px; box-shadow: none; }
+        .check-btn { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #555; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        /* GREEN CHECK BUTTON */
+        .set-row.completed .check-btn { background: #00e676; border-color: #00e676; color: #000; box-shadow: 0 0 15px rgba(0, 230, 118, 0.4); transform: scale(1.1); }
+        
+        .save-btn { width: 100%; border: none; padding: 16px; font-size: 15px; font-weight: 800; border-radius: 12px; cursor: pointer; margin: 15px 0; color: white; transition: 0.5s; text-transform: uppercase; letter-spacing: 1px; }
+        .save-btn.theme-btn { background: linear-gradient(135deg, var(--theme-grad-start), var(--theme-grad-end)); box-shadow: 0 8px 20px var(--theme-glow); }
+        .save-btn.theme-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px var(--theme-glow); }
+        .save-btn.add-ex-btn { background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.1); color: var(--text-muted); margin-top: 5px; box-shadow: none; }
         
         /* Dynamic Island Timer */
-        .timer-bar { position: fixed; top: 15px; left: 50%; transform: translateX(-50%) translateY(-150px); background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 40px rgba(0,0,0,0.9), 0 0 20px var(--theme-glow); border-radius: 30px; padding: 12px 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; z-index: 9999; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.5s; opacity: 0; width: 90%; max-width: 320px; }
+        .timer-bar { position: fixed; top: 15px; left: 50%; transform: translateX(-50%) translateY(-150px); background: rgba(18, 18, 20, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 30px var(--theme-glow); border-radius: 40px; padding: 12px 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; z-index: 9999; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.6s; opacity: 0; width: 90%; max-width: 320px; }
         .timer-bar.show { transform: translateX(-50%) translateY(0); opacity: 1; }
         .timer-row { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 10px; }
-        .timer-text { font-size: 20px; font-weight: 800; color: var(--theme-color); min-width: 70px; text-align: center; font-variant-numeric: tabular-nums; transition: 0.5s;}
-        .timer-btn { background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .timer-text { font-size: 24px; font-weight: 800; color: var(--theme-grad-end); min-width: 80px; text-align: center; font-variant-numeric: tabular-nums; transition: 0.6s; letter-spacing: 1px;}
+        .timer-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
         
-        .breathing-ring { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--theme-color); display: flex; align-items: center; justify-content: center; font-size: 10px; color: #aaa; transition: border-color 0.5s ease-in-out, transform 4s ease-in-out; animation: breathCycle 8s infinite ease-in-out; }
-        @keyframes breathCycle { 0%, 100% { transform: scale(0.8); } 50% { transform: scale(1.2); box-shadow: 0 0 15px var(--theme-glow); } }
+        .breathing-ring { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--theme-color); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--text-muted); transition: border-color 0.6s ease-in-out, transform 4s ease-in-out; animation: breathCycle 8s infinite ease-in-out; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
+        @keyframes breathCycle { 0%, 100% { transform: scale(0.8); } 50% { transform: scale(1.2); box-shadow: 0 0 20px var(--theme-glow); } }
 
-        .analytics-section { padding: 15px; margin-top: 20px; margin-bottom: 20px; }
-        .recovery-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; text-align: center;}
-        .rec-box { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; font-size: 11px; font-weight: bold; border: 1px solid rgba(255,255,255,0.1); }
-        .rec-red { border-color: #ef4444; color: #ef4444; background: rgba(239,68,68,0.1); }
-        .rec-green { border-color: #10b981; color: #10b981; background: rgba(16,185,129,0.1); }
+        .analytics-section { padding: 18px; margin-top: 20px; margin-bottom: 20px; }
+        .recovery-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 15px; text-align: center;}
+        .rec-box { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; font-size: 12px; font-weight: 700; border: 1px solid rgba(255,255,255,0.05); transition: 0.6s;}
+        .rec-red { border-color: rgba(234, 67, 53, 0.4); color: #ea4335; background: rgba(234, 67, 53, 0.05); }
+        .rec-theme { border-color: var(--theme-glow); color: var(--theme-grad-end); background: var(--theme-bg-subtle); }
 
-        .heatmap-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 12px; }
-        .heatmap-cell { aspect-ratio: 1; background: rgba(255,255,255,0.03); border-radius: 4px; border: 1px solid rgba(255,255,255,0.05); transition: 0.5s; }
-        .heatmap-cell.active { background: var(--theme-color); box-shadow: 0 0 8px var(--theme-glow); border-color: var(--theme-color); }
+        .heatmap-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-top: 15px; }
+        .heatmap-cell { aspect-ratio: 1; background: rgba(255,255,255,0.02); border-radius: 6px; border: 1px solid rgba(255,255,255,0.03); transition: 0.6s; }
+        .heatmap-cell.active { background: var(--theme-color); box-shadow: 0 0 10px var(--theme-glow); border-color: var(--theme-color); }
 
-        .history-section { padding: 15px; }
-        .history-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 12px 0; font-size: 12px; line-height: 1.6; }
-        .history-item:last-child { border-bottom: none; }
-        .history-date { color: var(--theme-grad-end); font-weight: bold; font-size: 13px; transition: 0.5s;}
-        .delete-log-btn { float: right; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 6px; padding: 4px 8px; color: #ef4444; cursor: pointer; font-size: 12px; }
+        .history-section { padding: 18px; }
+        .history-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 15px 0; font-size: 13px; line-height: 1.6; color: #ccc;}
+        .history-item:last-child { border-bottom: none; padding-bottom: 0;}
+        .history-date { color: var(--theme-grad-end); font-weight: 800; font-size: 14px; transition: 0.6s; letter-spacing: 0.5px;}
+        .delete-log-btn { float: right; background: rgba(234, 67, 53, 0.1); border: 1px solid rgba(234, 67, 53, 0.2); border-radius: 8px; padding: 4px 10px; color: #ea4335; cursor: pointer; font-size: 11px; font-weight: 700;}
         
-        .data-actions { display: flex; gap: 10px; margin-top: 15px; }
-        .data-btn { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #ccc; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; text-align: center; transition: 0.2s; }
+        .data-actions { display: flex; gap: 12px; margin-top: 20px; }
+        .data-btn { flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: var(--text-muted); padding: 12px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; text-align: center; transition: 0.3s; }
+        .data-btn:hover { background: rgba(255,255,255,0.08); color: #fff;}
         
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); justify-content: center; align-items: center; z-index: 2000; padding: 15px; animation: fadeIn 0.3s ease; }
-        .modal-content { background: #0a0c10; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px; width: 100%; max-width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); max-height: 80vh; overflow-y: auto;}
-        .modal-title { font-size: 18px; margin-bottom: 15px; color: var(--theme-color); font-weight: 800; transition: 0.5s; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 2000; padding: 15px; animation: fadeIn 0.3s ease; }
+        .modal-content { background: #121214; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 24px; width: 100%; max-width: 400px; box-shadow: 0 24px 60px rgba(0,0,0,0.6); max-height: 80vh; overflow-y: auto;}
+        .modal-title { font-size: 18px; margin-bottom: 18px; color: var(--theme-grad-end); font-weight: 800; transition: 0.6s; text-align: center; letter-spacing: -0.5px;}
         
-        #share-card-wrap { background: linear-gradient(145deg, #0d0f12, #111827); padding: 20px; border-radius: 16px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .share-brand { font-size: 10px; color: var(--theme-grad-end); text-align: center; margin-top: 15px; text-transform: uppercase; letter-spacing: 3px; font-weight: bold; transition: 0.5s;}
+        #share-card-wrap { background: linear-gradient(145deg, #18181b, #09090b); padding: 24px; border-radius: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.08); text-align: left; box-shadow: 0 10px 40px rgba(0,0,0,0.4); }
+        .share-brand { font-size: 10px; color: var(--theme-grad-end); text-align: center; margin-top: 20px; text-transform: uppercase; letter-spacing: 4px; font-weight: 800; transition: 0.6s;}
         
-        .chart-container { position: relative; width: 100%; height: 200px; margin-bottom: 10px; }
+        .chart-container { position: relative; width: 100%; height: 220px; margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -131,12 +137,12 @@
     <!-- Zen Breathing Timer -->
     <div class="timer-bar" id="timer-bar">
         <div class="timer-row">
-            <span style="font-size: 18px;">⏳</span>
+            <span style="font-size: 20px;">⏳</span>
             <span class="timer-text" id="timer-display">00:00</span>
             <button class="timer-btn" onclick="addTimerSeconds(30)">+30s</button>
-            <button class="timer-btn" onclick="stopTimer()" style="background: rgba(239,68,68,0.2); color: #ef4444;">✕</button>
+            <button class="timer-btn" onclick="stopTimer()" style="background: rgba(234,67,53,0.15); color: #ea4335; border-color: rgba(234,67,53,0.3);">✕</button>
         </div>
-        <div class="breathing-ring" id="breathing-text">Breathe</div>
+        <div class="breathing-ring" id="breathing-text">Focus</div>
     </div>
 
     <h1>💪 AESTHETIC TRACKER</h1>
@@ -147,31 +153,31 @@
             <span class="rpg-level" id="rpg-level-text">Lvl 1</span>
         </div>
         <div class="rpg-bar-bg"><div class="rpg-bar-fill" id="rpg-progress-bar"></div></div>
-        <div class="rpg-stats">Lifetime Vol: <b id="rpg-lifetime-vol">0</b> kg / Next: <span id="rpg-next-vol">10,000</span> kg</div>
+        <div class="rpg-stats">Lifetime Volume: <b id="rpg-lifetime-vol" style="color:#fff;">0</b> kg / Next Rank: <span id="rpg-next-vol">10,000</span> kg</div>
     </div>
 
     <div class="bw-tracker glass-card">
-        <span style="font-size: 12px; color: #888; font-weight: bold;">⚖️ Today's Bodyweight:</span>
-        <div>
-            <input type="number" id="bw-input" placeholder="0.0"> <span style="font-size:12px; color:#888;">kg</span>
+        <span style="font-size: 13px; color: var(--text-muted); font-weight: 600;">⚖️ Morning Bodyweight:</span>
+        <div style="display: flex; align-items:center; gap:8px;">
+            <input type="number" id="bw-input" placeholder="0.0"> <span style="font-size:13px; color:var(--text-muted); font-weight:600;">kg</span>
             <button onclick="saveBW()">Log</button>
         </div>
     </div>
 
     <div class="day-info glass-card">
-        <div style="width: 100%; text-align: center; margin-bottom: 8px;"><span id="day-display">Today: Loading...</span></div>
+        <div style="width: 100%; text-align: center; margin-bottom: 10px;"><span id="day-display" style="font-size: 15px; letter-spacing: -0.3px;">Today: Loading...</span></div>
         <div class="quick-tools-wrap">
-            <button class="quick-tools-btn autofill-btn" onclick="autoFillCurrentDay()">⚡ Auto-Fill Previous Weights</button>
+            <button class="autofill-btn" onclick="autoFillCurrentDay()">⚡ Auto-Fill Previous Weights</button>
         </div>
     </div>
 
-    <div class="nav-tabs glass-card">
-        <button class="tab-btn back-tab" id="tab-back" onclick="showPage('back')">Mon/Thu<br>Back+Tri</button>
-        <button class="tab-btn legs-tab" id="tab-leg" onclick="showPage('leg')">Tue/Fri<br>Legs+Shldr</button>
-        <button class="tab-btn chest-tab" id="tab-chest" onclick="showPage('chest')">Wed/Sat<br>Chest+Bi</button>
+    <div class="nav-tabs">
+        <button class="tab-btn active" id="tab-back" onclick="showPage('back')">Mon/Thu<br><span style="color:#fff;">Back+Tri</span></button>
+        <button class="tab-btn" id="tab-leg" onclick="showPage('leg')">Tue/Fri<br><span style="color:#fff;">Legs+Shldr</span></button>
+        <button class="tab-btn" id="tab-chest" onclick="showPage('chest')">Wed/Sat<br><span style="color:#fff;">Chest+Bi</span></button>
     </div>
 
-    <div id="back-page" class="page">
+    <div id="back-page" class="page active">
         <div id="back-exercises-container"></div>
         <button class="save-btn add-ex-btn" onclick="promptAddExercise('back')">➕ Add Custom Exercise</button>
         <button class="save-btn theme-btn" onclick="saveWorkout('back', 'Back + Triceps + Abs')">Save Back Workout</button>
@@ -191,10 +197,10 @@
 
     <!-- Symmetry & Recovery -->
     <div class="analytics-section glass-card">
-        <h3 style="font-size: 14px; margin-bottom: 10px; color: #fff; text-align: center; text-transform: uppercase; letter-spacing: 1px;">🕸️ Symmetry Radar</h3>
+        <h3 style="font-size: 14px; margin-bottom: 15px; color: #fff; text-align: center; text-transform: uppercase; letter-spacing: 1px;">🕸️ Symmetry Radar</h3>
         <div class="chart-container"><canvas id="radarChart"></canvas></div>
         
-        <h3 style="font-size: 12px; margin-top: 20px; color: #888; text-align: center; text-transform: uppercase;">🔴 Muscle Readiness 🟢</h3>
+        <h3 style="font-size: 12px; margin-top: 25px; color: var(--text-muted); text-align: center; text-transform: uppercase; letter-spacing: 1px;">Recovery Status</h3>
         <div class="recovery-grid" id="recovery-status-grid">
             <div class="rec-box">Back</div><div class="rec-box">Legs</div><div class="rec-box">Chest</div>
         </div>
@@ -203,24 +209,24 @@
     <!-- Consistency Heatmap -->
     <div class="analytics-section glass-card">
         <h3 style="font-size: 14px; margin-bottom: 5px; color: #fff; text-align: center; text-transform: uppercase; letter-spacing: 1px;">🔥 Consistency Streak</h3>
-        <p style="text-align:center; font-size:11px; color:#888; margin-bottom:10px;">Recent training consistency</p>
+        <p style="text-align:center; font-size:12px; color:var(--text-muted); margin-bottom:15px; font-weight: 500;">Recent training consistency</p>
         <div class="heatmap-grid" id="heatmapGrid"></div>
     </div>
 
     <!-- Line Chart Progress -->
     <div class="analytics-section glass-card">
-        <h3 style="font-size: 14px; margin-bottom: 10px; color: #fff; text-align: center; text-transform: uppercase; letter-spacing: 1px;">📈 Compound Strength (Last 5)</h3>
+        <h3 style="font-size: 14px; margin-bottom: 15px; color: #fff; text-align: center; text-transform: uppercase; letter-spacing: 1px;">📈 Compound Strength (Last 5)</h3>
         <div class="chart-container"><canvas id="progressChart"></canvas></div>
     </div>
 
     <div class="history-section glass-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-            <h3 style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">📋 History (<span id="active-history-title">Log</span>)</h3>
+            <h3 style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color:#fff;">📋 History (<span id="active-history-title" style="color:var(--theme-grad-end); transition:0.6s;">Log</span>)</h3>
         </div>
         <div id="history-log">No logged workouts yet.</div>
         <div class="data-actions">
-            <button class="data-btn" onclick="exportData()">💾 Backup</button>
-            <button class="data-btn" onclick="document.getElementById('importFile').click()">📂 Restore</button>
+            <button class="data-btn" onclick="exportData()">💾 Backup Data</button>
+            <button class="data-btn" onclick="document.getElementById('importFile').click()">📂 Restore Data</button>
             <input type="file" id="importFile" style="display:none" onchange="importData(event)">
         </div>
     </div>
@@ -230,19 +236,19 @@
         <div class="modal-content">
             <div class="modal-title" id="exHistoryTitle">Exercise History</div>
             <div id="exHistoryList" style="color: #ccc; font-size: 13px; line-height: 1.8;"></div>
-            <button class="data-btn" style="width: 100%; margin-top: 15px;" onclick="closeModal('exHistoryModal')">Close</button>
+            <button class="data-btn" style="width: 100%; margin-top: 20px;" onclick="closeModal('exHistoryModal')">Close</button>
         </div>
     </div>
 
     <div class="modal" id="celebrationModal">
         <div class="modal-content" style="text-align: center; padding: 20px;">
             <div id="share-card-wrap">
-                <div style="font-size: 40px; text-align: center; margin-bottom: 5px;">🏆</div>
-                <div style="color: var(--theme-grad-end); font-size: 20px; font-weight: 800; text-align: center; margin-bottom: 15px; text-transform: uppercase; transition: 0.5s;">Workout Complete</div>
-                <div id="celebrationStats" style="font-size: 14px; line-height: 1.8; color: #eee;"></div>
-                <div class="share-brand">Lean & Aesthetic Tracker</div>
+                <div style="font-size: 44px; text-align: center; margin-bottom: 10px; filter: drop-shadow(0 0 20px var(--theme-glow));">🏆</div>
+                <div style="color: var(--theme-grad-end); font-size: 22px; font-weight: 800; text-align: center; margin-bottom: 20px; text-transform: uppercase; transition: 0.6s; letter-spacing: -0.5px;">Workout Complete</div>
+                <div id="celebrationStats" style="font-size: 14px; line-height: 2; color: #e4e4e7; font-weight: 500;"></div>
+                <div class="share-brand">Elite Aesthetic Tracker</div>
             </div>
-            <button class="save-btn theme-btn" style="margin: 0 0 10px 0;" onclick="shareGraphic()">📸 Save for Instagram</button>
+            <button class="save-btn theme-btn" style="margin: 0 0 10px 0; border-radius: 12px;" onclick="shareGraphic()">📸 Save for Instagram</button>
             <button class="data-btn" style="width: 100%; border: none;" onclick="closeModal('celebrationModal')">Dismiss</button>
         </div>
     </div>
@@ -294,7 +300,7 @@
         }
 
         function initApp() {
-            if (!localStorage.getItem('userRoutineV4')) localStorage.setItem('userRoutineV4', JSON.stringify(defaultRoutine));
+            if (!localStorage.getItem('userRoutineElite')) localStorage.setItem('userRoutineElite', JSON.stringify(defaultRoutine));
             const bw = localStorage.getItem('userBodyweight');
             if (bw) document.getElementById('bw-input').value = bw;
 
@@ -309,7 +315,7 @@
         async function requestWakeLock() { try { if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } catch (e) {} }
 
         function renderRoutine() {
-            const routine = JSON.parse(localStorage.getItem('userRoutineV4'));
+            const routine = JSON.parse(localStorage.getItem('userRoutineElite'));
             Object.keys(routine).forEach(day => {
                 const container = document.getElementById(`${day}-exercises-container`);
                 if (!container) return;
@@ -348,37 +354,41 @@
         function promptAddExercise(day) {
             const name = prompt("Enter new exercise name:"); if (!name) return;
             const sets = parseInt(prompt("How many sets?", "3")) || 3, reps = prompt("Target reps?", "10-12"), rest = parseInt(prompt("Rest time in seconds?", "90")) || 90;
-            let r = JSON.parse(localStorage.getItem('userRoutineV4')); r[day].push({ name, sets, reps, rest });
-            localStorage.setItem('userRoutineV4', JSON.stringify(r)); renderRoutine();
+            let r = JSON.parse(localStorage.getItem('userRoutineElite')); r[day].push({ name, sets, reps, rest });
+            localStorage.setItem('userRoutineElite', JSON.stringify(r)); renderRoutine();
         }
 
         function deleteExercise(day, index) {
             if (confirm("Remove this exercise?")) {
-                let r = JSON.parse(localStorage.getItem('userRoutineV4')); r[day].splice(index, 1);
-                localStorage.setItem('userRoutineV4', JSON.stringify(r)); renderRoutine();
+                let r = JSON.parse(localStorage.getItem('userRoutineElite')); r[day].splice(index, 1);
+                localStorage.setItem('userRoutineElite', JSON.stringify(r)); renderRoutine();
             }
         }
 
-        // MAGIC UI CHAMELEON FUNCTION
+        // PREMIUM CHAMELEON THEME
         function setThemeColors(tab) {
-            let color = '#3b82f6', glow = 'rgba(59, 130, 246, 0.1)', gradStart = '#1d4ed8', gradEnd = '#60a5fa'; // Blue default
+            // Navy Blue (Back)
+            let color = '#1e3a8a', glow = 'rgba(30, 58, 138, 0.15)', gradStart = '#172554', gradEnd = '#1e40af', bgSubtle = 'rgba(30, 58, 138, 0.05)'; 
             
             if (tab === 'leg') { 
-                color = '#f59e0b'; glow = 'rgba(245, 158, 11, 0.1)'; gradStart = '#b45309'; gradEnd = '#fbbf24'; // Orange
+                // Navy to Chrome Red Gradient (Legs)
+                color = '#9d174d'; glow = 'rgba(157, 23, 77, 0.15)'; gradStart = '#1e3a8a'; gradEnd = '#ea4335'; bgSubtle = 'rgba(157, 23, 77, 0.05)';
             } 
             else if (tab === 'chest') { 
-                color = '#ef4444'; glow = 'rgba(239, 68, 68, 0.1)'; gradStart = '#991b1b'; gradEnd = '#f87171'; // Red
+                // Chrome Browser Red (Chest)
+                color = '#ea4335'; glow = 'rgba(234, 67, 53, 0.15)'; gradStart = '#b91c1c'; gradEnd = '#ea4335'; bgSubtle = 'rgba(234, 67, 53, 0.05)';
             }
             
             document.documentElement.style.setProperty('--theme-color', color);
             document.documentElement.style.setProperty('--theme-glow', glow);
             document.documentElement.style.setProperty('--theme-grad-start', gradStart);
             document.documentElement.style.setProperty('--theme-grad-end', gradEnd);
+            document.documentElement.style.setProperty('--theme-bg-subtle', bgSubtle);
         }
 
         function showPage(pageName) {
             currentActiveTab = pageName;
-            setThemeColors(pageName); // Changes the entire app color dynamically!
+            setThemeColors(pageName); 
             
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -387,8 +397,7 @@
             
             renderHistory(pageName); 
             updatePlaceholders(pageName); 
-            // Re-render charts so they match the new color
-            setTimeout(() => { renderLineChart(); renderRadarChart(); }, 100);
+            setTimeout(() => { renderLineChart(); renderRadarChart(); }, 150);
         }
 
         function autoSelectDayPage() {
@@ -409,7 +418,7 @@
                     }
                 });
             });
-            if (!filled) alert("No previous records found to auto-fill!");
+            if (!filled) alert("No previous records found to auto-fill.");
         }
 
         function speakVoice(text) {
@@ -467,19 +476,18 @@
 
         function fireConfetti() {
             var duration = 3 * 1000; var end = Date.now() + duration;
-            // Get the current dynamic color
-            const cColor = getComputedStyle(document.documentElement).getPropertyValue('--theme-color').trim();
+            const cStart = getComputedStyle(document.documentElement).getPropertyValue('--theme-grad-start').trim();
             const cEnd = getComputedStyle(document.documentElement).getPropertyValue('--theme-grad-end').trim();
             
             (function frame() {
-                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: [cColor, cEnd, '#ffffff'] });
-                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: [cColor, cEnd, '#ffffff'] });
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: [cStart, cEnd, '#ffffff'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: [cStart, cEnd, '#ffffff'] });
                 if (Date.now() < end) requestAnimationFrame(frame);
             }());
         }
 
         function updateRPGStats() {
-            let totalVol = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || []).reduce((sum, log) => sum + (log.volume || 0), 0);
+            let totalVol = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || []).reduce((sum, log) => sum + (log.volume || 0), 0);
             document.getElementById('rpg-lifetime-vol').innerText = totalVol.toLocaleString();
             const ranks = [
                 { limit: 0, name: "Iron Novice" }, { limit: 10000, name: "Bronze Warrior" },
@@ -495,7 +503,7 @@
         }
 
         function updateRecoveryStatus() {
-            const history = JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || [];
+            const history = JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || [];
             const now = Date.now();
             let lastTrained = { back: 0, leg: 0, chest: 0 };
             history.forEach(log => { if (log.id > lastTrained[log.category]) lastTrained[log.category] = log.id; });
@@ -504,17 +512,17 @@
             grid.innerHTML = '';
             ['back', 'leg', 'chest'].forEach(cat => {
                 const hoursPassed = (now - lastTrained[cat]) / (1000 * 60 * 60);
-                let statusClass = 'rec-green', statusText = 'Fresh';
+                let statusClass = 'rec-theme', statusText = 'Fresh';
                 if (lastTrained[cat] !== 0 && hoursPassed < 48) { statusClass = 'rec-red'; statusText = 'Fatigued'; }
                 let name = cat === 'back' ? 'Back' : cat === 'leg' ? 'Legs' : 'Chest';
-                grid.innerHTML += `<div class="rec-box ${statusClass}">${name}<br><span style="font-size:9px; font-weight:normal;">${statusText}</span></div>`;
+                grid.innerHTML += `<div class="rec-box ${statusClass}">${name}<br><span style="font-size:10px; font-weight:500;">${statusText}</span></div>`;
             });
         }
 
         function renderHeatmap() {
             const grid = document.getElementById('heatmapGrid');
             grid.innerHTML = '';
-            const history = JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || [];
+            const history = JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || [];
             let activeDays = new Set(history.map(h => new Date(h.id).toDateString()));
 
             for (let i = 20; i >= 0; i--) {
@@ -525,7 +533,7 @@
         }
 
         function updatePlaceholders(day) {
-            const lastLog = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || []).find(i => i.category === day);
+            const lastLog = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || []).find(i => i.category === day);
             if (!lastLog || !lastLog.parsedData) return;
             document.getElementById(`${day}-page`).querySelectorAll('.exercise-card').forEach(card => {
                 const vals = lastLog.parsedData[card.getAttribute('data-ex')];
@@ -536,7 +544,7 @@
         function saveWorkout(categoryKey, workoutType) {
             const page = document.getElementById(`${categoryKey}-page`);
             let workoutSummary = [], parsedData = {}, sessionVolume = 0, prList = [];
-            let prHistory = JSON.parse(localStorage.getItem('workoutPersonalRecords')) || {};
+            let prHistory = JSON.parse(localStorage.getItem('workoutPersonalRecordsElite')) || {};
 
             page.querySelectorAll('.exercise-card').forEach(card => {
                 const exName = card.getAttribute('data-ex'), inputs = card.querySelectorAll('input');
@@ -556,78 +564,77 @@
                 parsedData[exName] = numWeights;
             });
 
-            localStorage.setItem('workoutPersonalRecords', JSON.stringify(prHistory));
+            localStorage.setItem('workoutPersonalRecordsElite', JSON.stringify(prHistory));
             const durationMin = Math.max(1, Math.round((Date.now() - workoutStartTime) / 60000));
             const dateStr = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
             
-            let history = JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || [];
+            let history = JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || [];
             history.unshift({ id: Date.now(), category: categoryKey, type: workoutType, date: dateStr, summary: workoutSummary, parsedData: parsedData, volume: sessionVolume, duration: durationMin });
-            localStorage.setItem('pwaWorkoutHistoryV2', JSON.stringify(history));
+            localStorage.setItem('pwaWorkoutHistoryElite', JSON.stringify(history));
 
             page.querySelectorAll('.set-row').forEach(r => r.classList.remove('completed'));
             page.querySelectorAll('input').forEach(inp => inp.value = '');
 
             updateRPGStats(); updateRecoveryStatus(); renderHeatmap();
             document.getElementById('celebrationStats').innerHTML = `
-                <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>⚡ Routine:</span> <b style="color:var(--theme-color);">${workoutType}</b></div>
-                <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>⏱️ Duration:</span> <b>~${durationMin} mins</b></div>
-                <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>🏋️ Volume:</span> <b style="color:var(--theme-grad-end);">${sessionVolume.toLocaleString()} kg</b></div>
-                <div style="display:flex; justify-content:space-between; border-top: 1px solid rgba(255,255,255,0.1); padding-top:8px; margin-top:8px;"><span>🏅 Rank:</span> <b>${document.getElementById('rpg-rank-text').innerText} (${document.getElementById('rpg-level-text').innerText})</b></div>
-                ${prList.length > 0 ? `<div style="margin-top:10px; color:#ffd700; font-size:12px;">🔥 <b>New PRs:</b> ${prList.join(', ')}</div>` : ''}
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>⚡ Routine:</span> <b style="color:var(--theme-grad-end);">${workoutType}</b></div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>⏱️ Duration:</span> <b>~${durationMin} mins</b></div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>🏋️ Volume:</span> <b style="color:var(--theme-grad-end);">${sessionVolume.toLocaleString()} kg</b></div>
+                <div style="display:flex; justify-content:space-between; border-top: 1px solid rgba(255,255,255,0.08); padding-top:10px; margin-top:10px;"><span>🏅 Rank:</span> <b>${document.getElementById('rpg-rank-text').innerText} (${document.getElementById('rpg-level-text').innerText})</b></div>
+                ${prList.length > 0 ? `<div style="margin-top:15px; color:#fbbf24; font-size:13px;">🔥 <b>New PRs:</b> ${prList.join(', ')}</div>` : ''}
             `;
             openModal('celebrationModal'); fireConfetti(); renderHistory(categoryKey); updatePlaceholders(categoryKey); renderLineChart(); renderRadarChart();
         }
 
         function renderHistory(categoryKey) {
             document.getElementById('active-history-title').innerText = categoryKey.toUpperCase();
-            const filtered = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || []).filter(i => i.category === categoryKey);
+            const filtered = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || []).filter(i => i.category === categoryKey);
             const container = document.getElementById('history-log');
-            if (filtered.length === 0) return container.innerHTML = `<p style="color: #777;">No history recorded yet.</p>`;
+            if (filtered.length === 0) return container.innerHTML = `<p style="color: var(--text-muted); font-size:13px;">No history recorded yet.</p>`;
             container.innerHTML = filtered.map(item => `
                 <div class="history-item">
                     <button class="delete-log-btn" onclick="deleteLog(${item.id})">Delete</button>
-                    📍 <span class="history-date">${item.date}</span> <span style="color:#888;">(${item.volume ? item.volume.toLocaleString() : 0}kg vol)</span><br>
-                    ${item.summary.join('<br>')}
+                    📍 <span class="history-date">${item.date}</span> <span style="color:var(--text-muted); margin-left:8px;">(${item.volume ? item.volume.toLocaleString() : 0}kg vol)</span><br>
+                    <div style="margin-top:8px;">${item.summary.join('<br>')}</div>
                 </div>`).join('');
         }
         function deleteLog(id) {
             if (confirm("Delete this log?")) {
-                let h = JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || []; localStorage.setItem('pwaWorkoutHistoryV2', JSON.stringify(h.filter(i => i.id !== id)));
+                let h = JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || []; localStorage.setItem('pwaWorkoutHistoryElite', JSON.stringify(h.filter(i => i.id !== id)));
                 renderHistory(currentActiveTab); renderLineChart(); renderRadarChart(); updateRPGStats(); updateRecoveryStatus(); renderHeatmap();
             }
         }
         
-        Chart.defaults.color = '#888'; Chart.defaults.font.family = 'Inter';
+        Chart.defaults.color = '#a1a1aa'; Chart.defaults.font.family = 'Inter';
         function renderLineChart() {
             const ctx = document.getElementById('progressChart').getContext('2d');
-            const data = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || []).filter(i => i.category === currentActiveTab).slice(0, 5).reverse();
+            const data = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || []).filter(i => i.category === currentActiveTab).slice(0, 5).reverse();
             
-            // Get dynamic colors
-            const tColor = getComputedStyle(document.documentElement).getPropertyValue('--theme-color').trim();
-            const tGlow = getComputedStyle(document.documentElement).getPropertyValue('--theme-glow').trim();
+            const tColor = getComputedStyle(document.documentElement).getPropertyValue('--theme-grad-end').trim();
+            const tGlow = getComputedStyle(document.documentElement).getPropertyValue('--theme-bg-subtle').trim();
 
             let ds = [];
-            if (currentActiveTab === 'back') ds.push({ label: 'Lat Pulldown', data: data.map(h => h.parsedData['Shoulder-Width Lat Pulldown']?.[0]||0), borderColor: tColor, backgroundColor: tGlow, fill: true, tension: 0.3 });
-            else if (currentActiveTab === 'leg') ds.push({ label: 'Back Squat', data: data.map(h => h.parsedData['Barbell Back Squat']?.[0]||0), borderColor: tColor, backgroundColor: tGlow, fill: true, tension: 0.3 });
-            else if (currentActiveTab === 'chest') ds.push({ label: 'Bench Press', data: data.map(h => h.parsedData['Flat Barbell Bench Press']?.[0]||0), borderColor: tColor, backgroundColor: tGlow, fill: true, tension: 0.3 });
+            if (currentActiveTab === 'back') ds.push({ label: 'Lat Pulldown', data: data.map(h => h.parsedData['Shoulder-Width Lat Pulldown']?.[0]||0), borderColor: tColor, backgroundColor: tGlow, fill: true, tension: 0.4, borderWidth:3, pointRadius: 4 });
+            else if (currentActiveTab === 'leg') ds.push({ label: 'Back Squat', data: data.map(h => h.parsedData['Barbell Back Squat']?.[0]||0), borderColor: tColor, backgroundColor: tGlow, fill: true, tension: 0.4, borderWidth:3, pointRadius: 4 });
+            else if (currentActiveTab === 'chest') ds.push({ label: 'Bench Press', data: data.map(h => h.parsedData['Flat Barbell Bench Press']?.[0]||0), borderColor: tColor, backgroundColor: tGlow, fill: true, tension: 0.4, borderWidth:3, pointRadius: 4 });
             
             if (lineChartInstance) lineChartInstance.destroy();
-            lineChartInstance = new Chart(ctx, { type: 'line', data: { labels: data.map(i => i.date), datasets: ds }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true }, x: { grid: { display: false } } } } });
+            lineChartInstance = new Chart(ctx, { type: 'line', data: { labels: data.map(i => i.date), datasets: ds }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.03)' }, beginAtZero: true, border:{display:false} }, x: { grid: { display: false }, border:{display:false} } } } });
         }
         
         function renderRadarChart() {
             const ctx = document.getElementById('radarChart').getContext('2d');
             let vols = { back: 0, chest: 0, leg: 0 };
-            (JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || []).forEach(h => { if(vols[h.category] !== undefined) vols[h.category] += (h.volume || 0); });
+            (JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || []).forEach(h => { if(vols[h.category] !== undefined) vols[h.category] += (h.volume || 0); });
             
-            const tColor = getComputedStyle(document.documentElement).getPropertyValue('--theme-color').trim();
+            const tColor = getComputedStyle(document.documentElement).getPropertyValue('--theme-grad-end').trim();
             const tGlow = getComputedStyle(document.documentElement).getPropertyValue('--theme-glow').trim();
 
             if (radarChartInstance) radarChartInstance.destroy();
-            radarChartInstance = new Chart(ctx, { type: 'radar', data: { labels: ['Back & Pull', 'Legs & Core', 'Chest & Push'], datasets: [{ label: 'Lifetime Volume Allocation', data: [vols.back, vols.leg, vols.chest], backgroundColor: tGlow, borderColor: tColor, pointBackgroundColor: tColor, pointBorderColor: '#fff', borderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { r: { angleLines: { color: 'rgba(255,255,255,0.1)' }, grid: { color: 'rgba(255,255,255,0.1)' }, pointLabels: { color: '#ccc', font: { size: 12, weight: 'bold' } }, ticks: { display: false } } } } });
+            radarChartInstance = new Chart(ctx, { type: 'radar', data: { labels: ['Back & Pull', 'Legs & Core', 'Chest & Push'], datasets: [{ label: 'Lifetime Volume', data: [vols.back, vols.leg, vols.chest], backgroundColor: tGlow, borderColor: tColor, pointBackgroundColor: tColor, pointBorderColor: '#fff', borderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { r: { angleLines: { color: 'rgba(255,255,255,0.05)' }, grid: { color: 'rgba(255,255,255,0.05)' }, pointLabels: { color: '#e4e4e7', font: { size: 11, weight: '700' } }, ticks: { display: false } } } } });
         }
 
-        function shareGraphic() { html2canvas(document.getElementById('share-card-wrap'), { backgroundColor: '#000000', scale: 3 }).then(canvas => { let link = document.createElement('a'); link.download = `Aesthetic_Tracker_${new Date().getTime()}.png`; link.href = canvas.toDataURL("image/png"); link.click(); }); }
+        function shareGraphic() { html2canvas(document.getElementById('share-card-wrap'), { backgroundColor: '#050505', scale: 3 }).then(canvas => { let link = document.createElement('a'); link.download = `Aesthetic_Tracker_${new Date().getTime()}.png`; link.href = canvas.toDataURL("image/png"); link.click(); }); }
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
@@ -635,16 +642,16 @@
         function openExHistory(exName) {
             document.getElementById('exHistoryTitle').innerText = exName + " History";
             const hList = document.getElementById('exHistoryList');
-            const data = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryV2')) || []).filter(log => log.parsedData && log.parsedData[exName]);
+            const data = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || []).filter(log => log.parsedData && log.parsedData[exName]);
             if (data.length === 0) { hList.innerHTML = "No past data found."; } 
             else {
-                hList.innerHTML = data.slice(0, 7).map(d => `<div style="border-bottom:1px solid rgba(255,255,255,0.1); padding:6px 0;"><b>${d.date}</b>: ${d.parsedData[exName].join('kg, ')}kg</div>`).join('');
+                hList.innerHTML = data.slice(0, 7).map(d => `<div style="border-bottom:1px solid rgba(255,255,255,0.05); padding:10px 0;"><b>${d.date}</b><br><span style="color:var(--theme-grad-end)">${d.parsedData[exName].join('kg, ')}kg</span></div>`).join('');
             }
             openModal('exHistoryModal');
         }
 
-        function exportData() { const a = document.createElement('a'); a.download = 'WorkoutBackup.json'; a.href = URL.createObjectURL(new Blob([localStorage.getItem('pwaWorkoutHistoryV2') || "[]"], { type: 'application/json' })); a.click(); }
-        function importData(e) { const r = new FileReader(); r.onload = (ev) => { try { localStorage.setItem('pwaWorkoutHistoryV2', JSON.stringify(JSON.parse(ev.target.result))); initApp(); alert('Success!'); } catch(err){ alert('Error!'); } }; if (e.target.files[0]) r.readAsText(e.target.files[0]); }
+        function exportData() { const a = document.createElement('a'); a.download = 'WorkoutBackup.json'; a.href = URL.createObjectURL(new Blob([localStorage.getItem('pwaWorkoutHistoryElite') || "[]"], { type: 'application/json' })); a.click(); }
+        function importData(e) { const r = new FileReader(); r.onload = (ev) => { try { localStorage.setItem('pwaWorkoutHistoryElite', JSON.stringify(JSON.parse(ev.target.result))); initApp(); alert('Success!'); } catch(err){ alert('Error!'); } }; if (e.target.files[0]) r.readAsText(e.target.files[0]); }
 
         if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
         window.onload = initApp;
