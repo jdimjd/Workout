@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Aesthetic Tracker</title>
+    <title>Aesthetic Tracker Pro</title>
     
     <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#050505">
+    <meta name="theme-color" content="#000000" id="meta-theme-color">
     <link rel="apple-touch-icon" href="./logo.png">
     <link rel="icon" type="image/png" href="./logo.png">
 
@@ -15,131 +15,181 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         
-        /* DYNAMIC ELITE CSS VARIABLES */
         :root { 
-            --theme-color: #1e3a8a; /* Navy Blue Base */
-            --theme-glow: rgba(30, 58, 138, 0.15); 
-            --theme-bg-subtle: rgba(30, 58, 138, 0.05);
-            --theme-grad-start: #172554; 
-            --theme-grad-end: #1e40af; 
+            /* DEFAULT: DARK MODE (AMOLED PURE BLACK) */
+            --bg-color: #000000;
+            --text-main: #f5f5f3;
             --text-muted: #a1a1aa;
-            --surface-bg: rgba(24, 24, 27, 0.6);
+            --card-bg: rgba(18, 18, 18, 0.85);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --nav-bg: rgba(20, 20, 20, 0.9);
+            --shadow-color: rgba(0, 0, 0, 0.6);
+            --check-bg: rgba(255, 255, 255, 0.06);
+
+            /* GLOBAL COLORS */
+            --emerald-green: #10b981;
+            --stone-bar: #44403c;
+            --rose-miss: #fb7185;
+
+            /* ACTIVE TAB DYNAMICS */
+            --theme-color: #64748b;
+            --theme-light-bg: rgba(100, 116, 139, 0.12);
+            --theme-text: #94a3b8;
+            --theme-glow: rgba(100, 116, 139, 0.25);
+        }
+
+        /* AUTO LIGHT MODE: EARTHY OFF-WHITE */
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-color: #F5F5F3;
+                --text-main: #1e293b;
+                --text-muted: #64748b;
+                --card-bg: #ffffff;
+                --card-border: rgba(0, 0, 0, 0.07);
+                --input-bg: rgba(0, 0, 0, 0.04);
+                --nav-bg: #eaeae7;
+                --shadow-color: rgba(0, 0, 0, 0.06);
+                --check-bg: rgba(0, 0, 0, 0.05);
+
+                --theme-light-bg: #f8fafc;
+                --theme-text: #1e293b;
+            }
         }
         
         * { box-sizing: border-box; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
         
-        body { background-color: #050505; background-image: radial-gradient(circle at top right, var(--theme-bg-subtle), transparent 50%), radial-gradient(circle at bottom left, var(--theme-bg-subtle), transparent 50%); color: #fafafa; padding: 15px; max-width: 650px; margin: auto; padding-bottom: 95px; min-height: 100vh; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        body { 
+            background-color: var(--bg-color); 
+            background-image: radial-gradient(circle at top right, var(--theme-glow), transparent 45%), radial-gradient(circle at bottom left, var(--theme-glow), transparent 45%); 
+            color: var(--text-main); 
+            padding: 15px; 
+            max-width: 650px; 
+            margin: auto; 
+            padding-bottom: 95px; 
+            min-height: 100vh; 
+            transition: background-color 0.4s ease, color 0.4s ease; 
+        }
         
-        h1 { text-align: center; margin-bottom: 5px; font-size: 24px; font-weight: 800; letter-spacing: -0.5px; background: -webkit-linear-gradient(45deg, var(--theme-grad-start), var(--theme-grad-end)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; transition: 0.6s; }
+        h1 { 
+            text-align: center; 
+            margin-bottom: 5px; 
+            font-size: 22px; 
+            font-weight: 800; 
+            letter-spacing: -0.5px; 
+            color: var(--theme-color);
+            transition: color 0.4s ease; 
+        }
         
-        .glass-card { background: var(--surface-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 16px; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2); }
+        .glass-card { 
+            background: var(--card-bg); 
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px); 
+            border: 1px solid var(--card-border); 
+            border-radius: 16px; 
+            box-shadow: 0 4px 20px var(--shadow-color); 
+            transition: all 0.4s ease;
+        }
 
-        .rpg-container { padding: 18px; margin-bottom: 12px; border-left: 4px solid var(--theme-color); transition: border-color 0.6s; }
-        .rpg-header { display: flex; justify-content: space-between; align-items: center; font-size: 15px; font-weight: 800; margin-bottom: 12px; }
-        .rpg-rank { color: var(--theme-grad-end); text-transform: uppercase; letter-spacing: 2px; transition: color 0.6s; font-size: 13px;}
-        .rpg-level { color: #fff; background: var(--theme-grad-end); padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 12px; transition: 0.6s; box-shadow: 0 0 12px var(--theme-glow);}
-        .rpg-bar-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 6px; overflow: hidden; }
-        .rpg-bar-fill { height: 100%; background: linear-gradient(90deg, var(--theme-grad-start), var(--theme-grad-end)); width: 0%; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1), background 0.6s; box-shadow: 0 0 10px var(--theme-glow); }
-        .rpg-stats { text-align: center; font-size: 11px; color: var(--text-muted); margin-top: 10px; font-weight: 500; letter-spacing: 0.5px;}
+        .rpg-container { padding: 16px; margin-bottom: 12px; border-left: 4px solid var(--theme-color); }
+        .rpg-header { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 800; margin-bottom: 10px; }
+        .rpg-rank { color: var(--theme-color); text-transform: uppercase; letter-spacing: 1.5px; font-size: 12px; font-weight: 800; }
+        .rpg-level { color: #fff; background: var(--theme-color); padding: 3px 10px; border-radius: 20px; font-weight: 800; font-size: 11px; }
+        .rpg-bar-bg { width: 100%; height: 7px; background: var(--input-bg); border-radius: 6px; overflow: hidden; }
+        .rpg-bar-fill { height: 100%; background: var(--stone-bar); width: 0%; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
+        .rpg-stats { text-align: center; font-size: 11px; color: var(--text-muted); margin-top: 8px; font-weight: 600; }
 
-        /* Growth/Degrowth Tracker */
-        .trend-tracker { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; margin-bottom: 15px; }
+        .trend-tracker { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; margin-bottom: 12px; }
 
-        .bw-tracker { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; margin-bottom: 15px; }
-        .bw-tracker input { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); color: #fff; font-size: 15px; font-weight: 700; width: 70px; text-align: center; border-radius: 8px; padding: 6px; outline: none; transition: 0.3s;}
+        .bw-tracker { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; margin-bottom: 12px; }
+        .bw-tracker input { background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-main); font-size: 14px; font-weight: 700; width: 65px; text-align: center; border-radius: 8px; padding: 5px; outline: none; }
         .bw-tracker input:focus { border-color: var(--theme-color); }
-        .bw-tracker button { background: var(--theme-bg-subtle); color: var(--theme-grad-end); border: 1px solid var(--theme-glow); padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; transition: 0.3s; }
+        .bw-tracker button { background: var(--theme-color); color: #fff; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 11px; cursor: pointer; }
         
-        .day-info { display: flex; justify-content: space-between; align-items: center; padding: 15px; margin-bottom: 15px; font-size: 14px; color: var(--theme-color); font-weight: 700; flex-wrap: wrap; gap: 10px; transition: color 0.6s; }
-        .autofill-btn { background: var(--theme-bg-subtle); border: 1px solid var(--theme-glow); color: var(--theme-grad-end); padding: 12px; font-size: 13px; width: 100%; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;}
-        .autofill-btn:hover { background: var(--theme-glow); transform: translateY(-1px);}
+        .day-info { display: flex; justify-content: space-between; align-items: center; padding: 14px; margin-bottom: 14px; font-size: 13px; color: var(--theme-color); font-weight: 700; flex-wrap: wrap; gap: 8px; }
+        .autofill-btn { background: var(--theme-light-bg); border: 1px solid var(--theme-color); color: var(--theme-color); padding: 10px; font-size: 12px; width: 100%; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.2s; }
         
-        .nav-tabs { display: flex; justify-content: space-between; margin-bottom: 20px; padding: 6px; gap: 6px; background: rgba(0,0,0,0.4); border-radius: 14px; border: 1px solid rgba(255,255,255,0.03);}
-        .tab-btn { background: transparent; border: none; color: var(--text-muted); padding: 12px 5px; font-size: 12px; font-weight: 600; cursor: pointer; border-radius: 10px; flex: 1; transition: all 0.4s ease; text-align: center; line-height: 1.4;}
-        .tab-btn.active { background: var(--theme-bg-subtle); color: var(--theme-grad-end); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .nav-tabs { display: flex; justify-content: space-between; margin-bottom: 16px; padding: 5px; gap: 5px; background: var(--nav-bg); border-radius: 14px; border: 1px solid var(--card-border); }
+        .tab-btn { background: transparent; border: none; color: var(--text-muted); padding: 10px 4px; font-size: 11px; font-weight: 700; cursor: pointer; border-radius: 10px; flex: 1; transition: all 0.3s ease; text-align: center; line-height: 1.3; }
+        .tab-btn.active { background: var(--card-bg); color: var(--theme-color); box-shadow: 0 3px 10px var(--shadow-color); border: 1px solid var(--card-border); }
 
-        .page { display: none; animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .page { display: none; animation: slideUp 0.35s ease; }
         .page.active { display: block; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-        .category-header { font-size: 11px; font-weight: 800; margin: 15px 0 12px 0; padding: 6px 14px; border-radius: 20px; display: inline-block; text-transform: uppercase; letter-spacing: 2px; background: var(--theme-bg-subtle); color: var(--theme-grad-end); border: 1px solid var(--theme-glow); transition: 0.6s; }
+        .category-header { font-size: 11px; font-weight: 800; margin: 12px 0 10px 0; padding: 5px 12px; border-radius: 20px; display: inline-block; text-transform: uppercase; letter-spacing: 1.5px; background: var(--theme-color); color: #fff; }
 
-        .exercise-card { padding: 18px; margin-bottom: 15px; }
-        .exercise-title { font-size: 15px; font-weight: 700; margin-bottom: 15px; color: #fff; display: flex; justify-content: space-between; align-items: center; letter-spacing: -0.3px;}
-        .title-actions { display: flex; align-items: center; gap: 8px; }
-        .action-icon-btn { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 12px; transition: 0.2s;}
-        .rest-badge { font-size: 11px; background: var(--theme-bg-subtle); color: var(--theme-grad-end); padding: 6px 10px; border-radius: 8px; cursor: pointer; border: 1px solid var(--theme-glow); font-weight: 700; transition: 0.6s; }
+        .exercise-card { padding: 16px; margin-bottom: 12px; }
+        .exercise-title { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--text-main); display: flex; justify-content: space-between; align-items: center; }
+        .title-actions { display: flex; align-items: center; gap: 6px; }
+        .action-icon-btn { background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-muted); padding: 5px 8px; border-radius: 8px; cursor: pointer; font-size: 11px; }
+        .rest-badge { font-size: 11px; background: var(--theme-light-bg); color: var(--theme-color); padding: 5px 8px; border-radius: 8px; cursor: pointer; border: 1px solid var(--theme-color); font-weight: 700; }
         
-        .set-row { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 10px 14px; border-radius: 10px; margin-bottom: 8px; transition: all 0.3s ease; border: 1px solid transparent; }
+        .set-row { display: flex; justify-content: space-between; align-items: center; background: var(--input-bg); padding: 8px 12px; border-radius: 10px; margin-bottom: 6px; border: 1px solid transparent; }
+        .set-row.completed { background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.4); border-left: 3px solid var(--emerald-green); }
+        .set-label { font-size: 11px; background: var(--card-border); padding: 3px 8px; border-radius: 5px; font-weight: 700; color: var(--text-main); }
+        .reps-label { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+        .weight-input-group { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-muted); }
+        .weight-input-group input { width: 70px; padding: 6px; border-radius: 8px; border: 1px solid var(--card-border); background: var(--bg-color); color: var(--text-main); text-align: center; font-size: 14px; font-weight: 700; }
+        .weight-input-group input:focus { outline: none; border-color: var(--theme-color); }
         
-        /* HARDCODED NEON GREEN FOR COMPLETED SETS & CHECKS */
-        .set-row.completed { background: rgba(0, 230, 118, 0.05); border-color: rgba(0, 230, 118, 0.2); border-left: 3px solid #00e676; }
-        .set-label { font-size: 12px; background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 6px; font-weight: 700; color: #fff; }
-        .reps-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
-        .weight-input-group { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); }
-        .weight-input-group input { width: 75px; padding: 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.5); color: #fff; text-align: center; font-size: 15px; font-weight: 700; transition: 0.3s; }
-        .weight-input-group input:focus { outline: none; border-color: var(--theme-color); background: rgba(0,0,0,0.8); width: 85px;}
-        .weight-input-group input::placeholder { color: #555; font-size: 11px; font-weight: 500; }
+        .check-btn { background: var(--check-bg); border: 1px solid var(--card-border); color: var(--text-muted); width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+        .set-row.completed .check-btn { background: var(--emerald-green); border-color: var(--emerald-green); color: #fff; box-shadow: 0 0 12px rgba(16, 185, 129, 0.4); }
         
-        .check-btn { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #555; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        /* GREEN CHECK BUTTON */
-        .set-row.completed .check-btn { background: #00e676; border-color: #00e676; color: #000; box-shadow: 0 0 15px rgba(0, 230, 118, 0.4); transform: scale(1.1); }
-        
-        .save-btn { width: 100%; border: none; padding: 16px; font-size: 15px; font-weight: 800; border-radius: 12px; cursor: pointer; margin: 15px 0; color: white; transition: 0.5s; text-transform: uppercase; letter-spacing: 1px; }
-        .save-btn.theme-btn { background: linear-gradient(135deg, var(--theme-grad-start), var(--theme-grad-end)); box-shadow: 0 8px 20px var(--theme-glow); }
-        .save-btn.theme-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px var(--theme-glow); }
-        .save-btn.add-ex-btn { background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.1); color: var(--text-muted); margin-top: 5px; box-shadow: none; }
+        .save-btn { width: 100%; border: none; padding: 14px; font-size: 14px; font-weight: 800; border-radius: 12px; cursor: pointer; margin: 12px 0; color: white; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        .save-btn.theme-btn { background: var(--theme-color); box-shadow: 0 6px 18px var(--theme-glow); }
+        .save-btn.add-ex-btn { background: var(--input-bg); border: 1px dashed var(--card-border); color: var(--text-muted); margin-top: 4px; box-shadow: none; }
         
         /* Dynamic Island Timer */
-        .timer-bar { position: fixed; top: 15px; left: 50%; transform: translateX(-50%) translateY(-150px); background: rgba(18, 18, 20, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 30px var(--theme-glow); border-radius: 40px; padding: 12px 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; z-index: 9999; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.6s; opacity: 0; width: 90%; max-width: 320px; }
+        .timer-bar { position: fixed; top: 15px; left: 50%; transform: translateX(-50%) translateY(-150px); background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: 0 15px 40px var(--shadow-color); border-radius: 40px; padding: 12px 22px; display: flex; flex-direction: column; align-items: center; gap: 10px; z-index: 9999; transition: transform 0.4s ease, opacity 0.4s ease; opacity: 0; width: 88%; max-width: 310px; }
         .timer-bar.show { transform: translateX(-50%) translateY(0); opacity: 1; }
         .timer-row { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 10px; }
-        .timer-text { font-size: 24px; font-weight: 800; color: var(--theme-grad-end); min-width: 80px; text-align: center; font-variant-numeric: tabular-nums; transition: 0.6s; letter-spacing: 1px;}
-        .timer-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .timer-text { font-size: 22px; font-weight: 800; color: var(--theme-color); min-width: 75px; text-align: center; font-variant-numeric: tabular-nums; }
+        .timer-btn { background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-main); padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; cursor: pointer; }
         
-        .breathing-ring { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--theme-color); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--text-muted); transition: border-color 0.6s ease-in-out, transform 4s ease-in-out; animation: breathCycle 8s infinite ease-in-out; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
-        @keyframes breathCycle { 0%, 100% { transform: scale(0.8); } 50% { transform: scale(1.2); box-shadow: 0 0 20px var(--theme-glow); } }
+        .breathing-ring { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--theme-color); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--text-muted); animation: breathCycle 8s infinite ease-in-out; font-weight: 600; text-transform: uppercase; }
+        @keyframes breathCycle { 0%, 100% { transform: scale(0.85); } 50% { transform: scale(1.15); box-shadow: 0 0 15px var(--theme-glow); } }
 
-        .analytics-section { padding: 18px; margin-top: 20px; margin-bottom: 20px; }
-        .recovery-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 15px; text-align: center;}
-        .rec-box { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; font-size: 12px; font-weight: 700; border: 1px solid rgba(255,255,255,0.05); transition: 0.6s;}
-        .rec-red { border-color: rgba(234, 67, 53, 0.4); color: #ea4335; background: rgba(234, 67, 53, 0.05); }
-        .rec-theme { border-color: var(--theme-glow); color: var(--theme-grad-end); background: var(--theme-bg-subtle); }
+        .analytics-section { padding: 16px; margin-top: 16px; margin-bottom: 16px; }
+        .recovery-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 12px; text-align: center; }
+        .rec-box { background: var(--input-bg); padding: 10px; border-radius: 10px; font-size: 11px; font-weight: 700; border: 1px solid var(--card-border); }
+        .rec-red { border-color: rgba(244, 63, 94, 0.4); color: #f43f5e; background: rgba(244, 63, 94, 0.08); }
+        .rec-theme { border-color: var(--theme-color); color: var(--theme-color); background: var(--theme-light-bg); }
 
-        .heatmap-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-top: 15px; }
-        .heatmap-cell { aspect-ratio: 1; background: rgba(255,255,255,0.02); border-radius: 6px; border: 1px solid rgba(255,255,255,0.03); transition: 0.6s; }
-        .heatmap-cell.active { background: var(--theme-color); box-shadow: 0 0 10px var(--theme-glow); border-color: var(--theme-color); }
+        .heatmap-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 12px; }
+        .heatmap-cell { aspect-ratio: 1; background: var(--input-bg); border-radius: 5px; border: 1px solid var(--card-border); }
+        .heatmap-cell.active { background: var(--emerald-green); box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); border-color: var(--emerald-green); }
 
-        .history-section { padding: 18px; }
-        .history-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 15px 0; font-size: 13px; line-height: 1.6; color: #ccc;}
-        .history-item:last-child { border-bottom: none; padding-bottom: 0;}
-        .history-date { color: var(--theme-grad-end); font-weight: 800; font-size: 14px; transition: 0.6s; letter-spacing: 0.5px;}
-        .delete-log-btn { float: right; background: rgba(234, 67, 53, 0.1); border: 1px solid rgba(234, 67, 53, 0.2); border-radius: 8px; padding: 4px 10px; color: #ea4335; cursor: pointer; font-size: 11px; font-weight: 700;}
+        .history-section { padding: 16px; }
+        .history-item { border-bottom: 1px solid var(--card-border); padding: 12px 0; font-size: 12px; line-height: 1.6; color: var(--text-muted); }
+        .history-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .history-date { color: var(--theme-color); font-weight: 800; font-size: 13px; }
+        .delete-log-btn { float: right; background: rgba(251, 113, 133, 0.12); border: 1px solid var(--rose-miss); border-radius: 6px; padding: 3px 8px; color: var(--rose-miss); cursor: pointer; font-size: 10px; font-weight: 700; }
         
-        .data-actions { display: flex; gap: 12px; margin-top: 20px; }
-        .data-btn { flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: var(--text-muted); padding: 12px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; text-align: center; transition: 0.3s; }
+        .data-actions { display: flex; gap: 10px; margin-top: 16px; }
+        .data-btn { flex: 1; background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-muted); padding: 10px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; text-align: center; }
         
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 2000; padding: 15px; animation: fadeIn 0.3s ease; }
-        .modal-content { background: #121214; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 24px; width: 100%; max-width: 400px; box-shadow: 0 24px 60px rgba(0,0,0,0.6); max-height: 80vh; overflow-y: auto;}
-        .modal-title { font-size: 18px; margin-bottom: 18px; color: var(--theme-grad-end); font-weight: 800; transition: 0.6s; text-align: center; letter-spacing: -0.5px;}
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); justify-content: center; align-items: center; z-index: 2000; padding: 15px; }
+        .modal-content { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 20px; width: 100%; max-width: 380px; box-shadow: 0 20px 50px var(--shadow-color); max-height: 80vh; overflow-y: auto; }
+        .modal-title { font-size: 16px; margin-bottom: 14px; color: var(--theme-color); font-weight: 800; text-align: center; }
         
-        #share-card-wrap { background: linear-gradient(145deg, #18181b, #09090b); padding: 24px; border-radius: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.08); text-align: left; box-shadow: 0 10px 40px rgba(0,0,0,0.4); }
-        .share-brand { font-size: 10px; color: var(--theme-grad-end); text-align: center; margin-top: 20px; text-transform: uppercase; letter-spacing: 4px; font-weight: 800; transition: 0.6s;}
+        #share-card-wrap { background: var(--card-bg); padding: 20px; border-radius: 16px; margin-bottom: 16px; border: 1px solid var(--card-border); text-align: left; }
+        .share-brand { font-size: 9px; color: var(--theme-color); text-align: center; margin-top: 16px; text-transform: uppercase; letter-spacing: 3px; font-weight: 800; }
         
-        .chart-container { position: relative; width: 100%; height: 220px; margin-bottom: 10px; }
+        .chart-container { position: relative; width: 100%; height: 210px; margin-bottom: 8px; }
     </style>
 </head>
 <body>
 
-    <!-- Zen Breathing Timer -->
+    <!-- Dynamic Island Timer -->
     <div class="timer-bar" id="timer-bar">
         <div class="timer-row">
-            <span style="font-size: 20px;">⏳</span>
+            <span style="font-size: 18px;">⏳</span>
             <span class="timer-text" id="timer-display">00:00</span>
             <button class="timer-btn" onclick="addTimerSeconds(30)">+30s</button>
-            <button class="timer-btn" onclick="stopTimer()" style="background: rgba(234,67,53,0.15); color: #ea4335; border-color: rgba(234,67,53,0.3);">✕</button>
+            <button class="timer-btn" onclick="stopTimer()" style="background: rgba(244, 63, 94, 0.15); color: #f43f5e; border-color: #f43f5e;">✕</button>
         </div>
         <div class="breathing-ring" id="breathing-text">Focus</div>
     </div>
@@ -152,34 +202,34 @@
             <span class="rpg-level" id="rpg-level-text">Lvl 1</span>
         </div>
         <div class="rpg-bar-bg"><div class="rpg-bar-fill" id="rpg-progress-bar"></div></div>
-        <div class="rpg-stats">Lifetime Volume: <b id="rpg-lifetime-vol" style="color:#fff;">0</b> kg / Next Rank: <span id="rpg-next-vol">10,000</span> kg</div>
+        <div class="rpg-stats">Lifetime Volume: <b id="rpg-lifetime-vol" style="color:var(--text-main);">0</b> kg / Next Rank: <span id="rpg-next-vol">10,000</span> kg</div>
     </div>
 
-    <!-- Growth / Degrowth Tracker -->
+    <!-- Weekly Trend Tracker -->
     <div class="trend-tracker glass-card">
-        <span style="font-size: 13px; color: var(--text-muted); font-weight: 600;">📊 Weekly Trend (vs Last):</span>
-        <div id="growth-stat-text" style="font-size: 13px; text-align: right;">Loading...</div>
+        <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">📊 Weekly Trend (vs Last):</span>
+        <div id="growth-stat-text" style="font-size: 12px; text-align: right;">Loading...</div>
     </div>
 
     <div class="bw-tracker glass-card">
-        <span style="font-size: 13px; color: var(--text-muted); font-weight: 600;">⚖️ Morning Bodyweight:</span>
-        <div style="display: flex; align-items:center; gap:8px;">
-            <input type="number" id="bw-input" placeholder="0.0"> <span style="font-size:13px; color:var(--text-muted); font-weight:600;">kg</span>
+        <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">⚖️ Morning Bodyweight:</span>
+        <div style="display: flex; align-items:center; gap:6px;">
+            <input type="number" id="bw-input" placeholder="0.0"> <span style="font-size:12px; color:var(--text-muted); font-weight:600;">kg</span>
             <button onclick="saveBW()">Log</button>
         </div>
     </div>
 
     <div class="day-info glass-card">
-        <div style="width: 100%; text-align: center; margin-bottom: 10px;"><span id="day-display" style="font-size: 15px; letter-spacing: -0.3px;">Today: Loading...</span></div>
+        <div style="width: 100%; text-align: center; margin-bottom: 6px;"><span id="day-display" style="font-size: 14px; letter-spacing: -0.3px; font-weight: 800;">Today: Loading...</span></div>
         <div class="quick-tools-wrap">
             <button class="autofill-btn" onclick="autoFillCurrentDay()">⚡ Auto-Fill Previous Weights</button>
         </div>
     </div>
 
     <div class="nav-tabs">
-        <button class="tab-btn active" id="tab-back" onclick="showPage('back')">Mon/Thu<br><span style="color:#fff;">Back+Tri</span></button>
-        <button class="tab-btn" id="tab-leg" onclick="showPage('leg')">Tue/Fri<br><span style="color:#fff;">Legs+Shldr</span></button>
-        <button class="tab-btn" id="tab-chest" onclick="showPage('chest')">Wed/Sat<br><span style="color:#fff;">Chest+Bi</span></button>
+        <button class="tab-btn active" id="tab-back" onclick="showPage('back')">Mon/Thu<br><span style="color:var(--text-main);">Back+Tri</span></button>
+        <button class="tab-btn" id="tab-leg" onclick="showPage('leg')">Tue/Fri<br><span style="color:var(--text-main);">Legs+Shldr</span></button>
+        <button class="tab-btn" id="tab-chest" onclick="showPage('chest')">Wed/Sat<br><span style="color:var(--text-main);">Chest+Bi</span></button>
     </div>
 
     <div id="back-page" class="page active">
@@ -202,10 +252,10 @@
 
     <!-- Symmetry & Recovery -->
     <div class="analytics-section glass-card">
-        <h3 style="font-size: 14px; margin-bottom: 15px; color: #fff; text-align: center; text-transform: uppercase; letter-spacing: 1px;">🕸️ Symmetry Radar</h3>
+        <h3 style="font-size: 13px; margin-bottom: 12px; color: var(--text-main); text-align: center; text-transform: uppercase; letter-spacing: 1px;">🕸️ Symmetry Radar</h3>
         <div class="chart-container"><canvas id="radarChart"></canvas></div>
         
-        <h3 style="font-size: 12px; margin-top: 25px; color: var(--text-muted); text-align: center; text-transform: uppercase; letter-spacing: 1px;">Recovery Status</h3>
+        <h3 style="font-size: 11px; margin-top: 20px; color: var(--text-muted); text-align: center; text-transform: uppercase; letter-spacing: 1px;">Recovery Status</h3>
         <div class="recovery-grid" id="recovery-status-grid">
             <div class="rec-box">Back</div><div class="rec-box">Legs</div><div class="rec-box">Chest</div>
         </div>
@@ -213,25 +263,25 @@
 
     <!-- Consistency Heatmap -->
     <div class="analytics-section glass-card">
-        <h3 style="font-size: 14px; margin-bottom: 5px; color: #fff; text-align: center; text-transform: uppercase; letter-spacing: 1px;">🔥 Consistency Streak</h3>
-        <p style="text-align:center; font-size:12px; color:var(--text-muted); margin-bottom:15px; font-weight: 500;">Recent training consistency</p>
+        <h3 style="font-size: 13px; margin-bottom: 4px; color: var(--text-main); text-align: center; text-transform: uppercase; letter-spacing: 1px;">🔥 Consistency Streak</h3>
+        <p style="text-align:center; font-size:11px; color:var(--text-muted); margin-bottom:12px; font-weight: 500;">Training consistency (Week 1 Green)</p>
         <div class="heatmap-grid" id="heatmapGrid"></div>
     </div>
 
     <!-- Line Chart Progress -->
     <div class="analytics-section glass-card">
-        <h3 style="font-size: 14px; margin-bottom: 15px; color: #fff; text-align: center; text-transform: uppercase; letter-spacing: 1px;">📈 Compound Strength (Last 5)</h3>
+        <h3 style="font-size: 13px; margin-bottom: 12px; color: var(--text-main); text-align: center; text-transform: uppercase; letter-spacing: 1px;">📈 Compound Strength (Last 5)</h3>
         <div class="chart-container"><canvas id="progressChart"></canvas></div>
     </div>
 
     <div class="history-section glass-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-            <h3 style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color:#fff;">📋 History (<span id="active-history-title" style="color:var(--theme-grad-end); transition:0.6s;">Log</span>)</h3>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h3 style="font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color:var(--text-main);">📋 History (<span id="active-history-title" style="color:var(--theme-color);">Log</span>)</h3>
         </div>
         <div id="history-log">No logged workouts yet.</div>
         <div class="data-actions">
-            <button class="data-btn" onclick="exportData()">💾 Backup Data</button>
-            <button class="data-btn" onclick="document.getElementById('importFile').click()">📂 Restore Data</button>
+            <button class="data-btn" onclick="exportData()">💾 Backup</button>
+            <button class="data-btn" onclick="document.getElementById('importFile').click()">📂 Restore</button>
             <input type="file" id="importFile" style="display:none" onchange="importData(event)">
         </div>
     </div>
@@ -240,20 +290,20 @@
     <div class="modal" id="exHistoryModal">
         <div class="modal-content">
             <div class="modal-title" id="exHistoryTitle">Exercise History</div>
-            <div id="exHistoryList" style="color: #ccc; font-size: 13px; line-height: 1.8;"></div>
-            <button class="data-btn" style="width: 100%; margin-top: 20px;" onclick="closeModal('exHistoryModal')">Close</button>
+            <div id="exHistoryList" style="color: var(--text-muted); font-size: 12px; line-height: 1.8;"></div>
+            <button class="data-btn" style="width: 100%; margin-top: 16px;" onclick="closeModal('exHistoryModal')">Close</button>
         </div>
     </div>
 
     <div class="modal" id="celebrationModal">
         <div class="modal-content" style="text-align: center; padding: 20px;">
             <div id="share-card-wrap">
-                <div style="font-size: 44px; text-align: center; margin-bottom: 10px; filter: drop-shadow(0 0 20px var(--theme-glow));">🏆</div>
-                <div style="color: var(--theme-grad-end); font-size: 22px; font-weight: 800; text-align: center; margin-bottom: 20px; text-transform: uppercase; transition: 0.6s; letter-spacing: -0.5px;">Workout Complete</div>
-                <div id="celebrationStats" style="font-size: 14px; line-height: 2; color: #e4e4e7; font-weight: 500;"></div>
-                <div class="share-brand">Elite Aesthetic Tracker</div>
+                <div style="font-size: 38px; text-align: center; margin-bottom: 8px;">🏆</div>
+                <div style="color: var(--theme-color); font-size: 20px; font-weight: 800; text-align: center; margin-bottom: 16px; text-transform: uppercase; letter-spacing: -0.5px;">Workout Complete</div>
+                <div id="celebrationStats" style="font-size: 13px; line-height: 1.9; color: var(--text-main); font-weight: 500;"></div>
+                <div class="share-brand">Habit-Tracker Color Aesthetic</div>
             </div>
-            <button class="save-btn theme-btn" style="margin: 0 0 10px 0; border-radius: 12px;" onclick="shareGraphic()">📸 Save for Instagram</button>
+            <button class="save-btn theme-btn" style="margin: 0 0 8px 0; border-radius: 12px;" onclick="shareGraphic()">📸 Save for Instagram</button>
             <button class="data-btn" style="width: 100%; border: none;" onclick="closeModal('celebrationModal')">Dismiss</button>
         </div>
     </div>
@@ -300,16 +350,32 @@
         let workoutStartTime = Date.now();
         let wakeLock = null;
 
-        function requestNotificationPermission() {
-            if ("Notification" in window && Notification.permission !== "granted") Notification.requestPermission();
+        function updateMetaThemeColor() {
+            const isLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+            document.getElementById('meta-theme-color').setAttribute('content', isLight ? '#F5F5F3' : '#000000');
         }
 
+        window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
+            updateMetaThemeColor();
+            setThemeColors(currentActiveTab);
+            renderLineChart();
+            renderRadarChart();
+        });
+
         function initApp() {
-            if (!localStorage.getItem('userRoutineElite')) localStorage.setItem('userRoutineElite', JSON.stringify(defaultRoutine));
+            updateMetaThemeColor();
+            if (!localStorage.getItem('userRoutineExact')) localStorage.setItem('userRoutineExact', JSON.stringify(defaultRoutine));
             const bw = localStorage.getItem('userBodyweight');
             if (bw) document.getElementById('bw-input').value = bw;
 
-            renderRoutine(); autoSelectDayPage(); updateRPGStats(); requestWakeLock(); renderRadarChart(); updateRecoveryStatus(); renderHeatmap(); requestNotificationPermission();
+            renderRoutine(); 
+            autoSelectDayPage(); 
+            updateRPGStats(); 
+            requestWakeLock(); 
+            renderRadarChart(); 
+            updateRecoveryStatus(); 
+            renderHeatmap(); 
+            requestNotificationPermission();
         }
 
         function saveBW() {
@@ -320,11 +386,11 @@
         async function requestWakeLock() { try { if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } catch (e) {} }
 
         function renderRoutine() {
-            const routine = JSON.parse(localStorage.getItem('userRoutineElite'));
+            const routine = JSON.parse(localStorage.getItem('userRoutineExact'));
             Object.keys(routine).forEach(day => {
                 const container = document.getElementById(`${day}-exercises-container`);
                 if (!container) return;
-                container.innerHTML = `<div class="category-header cat-${day}">${day === 'back' ? 'BACK & TRICEPS' : day === 'leg' ? 'LEGS & SHOULDERS' : 'CHEST & BICEPS'}</div>`;
+                container.innerHTML = `<div class="category-header">${day === 'back' ? 'BACK & TRICEPS' : day === 'leg' ? 'LEGS & SHOULDERS' : 'CHEST & BICEPS'}</div>`;
                 
                 routine[day].forEach((ex, index) => {
                     let setsHtml = '';
@@ -359,36 +425,45 @@
         function promptAddExercise(day) {
             const name = prompt("Enter new exercise name:"); if (!name) return;
             const sets = parseInt(prompt("How many sets?", "3")) || 3, reps = prompt("Target reps?", "10-12"), rest = parseInt(prompt("Rest time in seconds?", "90")) || 90;
-            let r = JSON.parse(localStorage.getItem('userRoutineElite')); r[day].push({ name, sets, reps, rest });
-            localStorage.setItem('userRoutineElite', JSON.stringify(r)); renderRoutine();
+            let r = JSON.parse(localStorage.getItem('userRoutineExact')); r[day].push({ name, sets, reps, rest });
+            localStorage.setItem('userRoutineExact', JSON.stringify(r)); renderRoutine();
         }
 
         function deleteExercise(day, index) {
             if (confirm("Remove this exercise?")) {
-                let r = JSON.parse(localStorage.getItem('userRoutineElite')); r[day].splice(index, 1);
-                localStorage.setItem('userRoutineElite', JSON.stringify(r)); renderRoutine();
+                let r = JSON.parse(localStorage.getItem('userRoutineExact')); r[day].splice(index, 1);
+                localStorage.setItem('userRoutineExact', JSON.stringify(r)); renderRoutine();
             }
         }
 
-        // PREMIUM CHAMELEON THEME (Exact Matches)
+        /* EXACT HABIT TRACKER COLOR MAPPINGS */
         function setThemeColors(tab) {
-            // Navy Blue (Back)
-            let color = '#1e3a8a', glow = 'rgba(30, 58, 138, 0.15)', gradStart = '#172554', gradEnd = '#1e40af', bgSubtle = 'rgba(30, 58, 138, 0.05)'; 
+            const isLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+            
+            let color = '#64748b'; // Week 3 Slate Blue (Back)
+            let lightBg = isLight ? '#f8fafc' : 'rgba(100, 116, 139, 0.15)';
+            let text = isLight ? '#1e293b' : '#94a3b8';
+            let glow = 'rgba(100, 116, 139, 0.2)';
             
             if (tab === 'leg') { 
-                // Navy to Chrome Red Gradient (Legs)
-                color = '#b91c1c'; glow = 'rgba(234, 67, 53, 0.15)'; gradStart = '#1e3a8a'; gradEnd = '#ea4335'; bgSubtle = 'rgba(234, 67, 53, 0.05)';
+                // Week 2 Warm Sand (Legs)
+                color = '#f59e0b';
+                lightBg = isLight ? '#fffbeb' : 'rgba(245, 158, 11, 0.15)';
+                text = isLight ? '#92400e' : '#fcd34d';
+                glow = 'rgba(245, 158, 11, 0.2)';
             } 
             else if (tab === 'chest') { 
-                // Chrome Browser Red (Chest)
-                color = '#ea4335'; glow = 'rgba(234, 67, 53, 0.15)'; gradStart = '#b91c1c'; gradEnd = '#ea4335'; bgSubtle = 'rgba(234, 67, 53, 0.05)';
+                // Week 4 Dusty Rose (Chest)
+                color = '#f43f5e';
+                lightBg = isLight ? '#fff1f2' : 'rgba(244, 63, 94, 0.15)';
+                text = isLight ? '#9f1239' : '#fda4af';
+                glow = 'rgba(244, 63, 94, 0.2)';
             }
             
             document.documentElement.style.setProperty('--theme-color', color);
+            document.documentElement.style.setProperty('--theme-light-bg', lightBg);
+            document.documentElement.style.setProperty('--theme-text', text);
             document.documentElement.style.setProperty('--theme-glow', glow);
-            document.documentElement.style.setProperty('--theme-grad-start', gradStart);
-            document.documentElement.style.setProperty('--theme-grad-end', gradEnd);
-            document.documentElement.style.setProperty('--theme-bg-subtle', bgSubtle);
         }
 
         function showPage(pageName) {
@@ -402,8 +477,8 @@
             
             renderHistory(pageName); 
             updatePlaceholders(pageName); 
-            updateGrowthStats(pageName); // Update Weekly Trend on Tab Change
-            setTimeout(() => { renderLineChart(); renderRadarChart(); }, 150);
+            updateGrowthStats(pageName);
+            setTimeout(() => { renderLineChart(); renderRadarChart(); }, 100);
         }
 
         function autoSelectDayPage() {
@@ -427,9 +502,8 @@
             if (!filled) alert("No previous records found to auto-fill.");
         }
 
-        // 📈 WEEKLY GROWTH / DEGROWTH CALCULATOR
         function updateGrowthStats(day) {
-            const history = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || []).filter(i => i.category === day);
+            const history = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryExact')) || []).filter(i => i.category === day);
             const growthEl = document.getElementById('growth-stat-text');
             
             if (history.length < 2) {
@@ -443,12 +517,12 @@
             
             if (diff > 0) {
                 const pct = ((diff / lastVol) * 100).toFixed(1);
-                growthEl.innerHTML = `<span style="color:#00e676; font-weight:800; text-shadow: 0 0 10px rgba(0,230,118,0.4);">📈 +${diff.toLocaleString()}kg (+${pct}%) Growth</span>`;
+                growthEl.innerHTML = `<span style="color:var(--emerald-green); font-weight:800;">📈 +${diff.toLocaleString()}kg (+${pct}%) Growth</span>`;
             } else if (diff < 0) {
                 const pct = ((Math.abs(diff) / lastVol) * 100).toFixed(1);
-                growthEl.innerHTML = `<span style="color:#ef4444; font-weight:800;">📉 -${Math.abs(diff).toLocaleString()}kg (-${pct}%) Degrowth</span>`;
+                growthEl.innerHTML = `<span style="color:#f43f5e; font-weight:800;">📉 -${Math.abs(diff).toLocaleString()}kg (-${pct}%) Degrowth</span>`;
             } else {
-                growthEl.innerHTML = `<span style="color:#fbbf24; font-weight:800;">⚖️ Maintained Same Volume</span>`;
+                growthEl.innerHTML = `<span style="color:#f59e0b; font-weight:800;">⚖️ Maintained Same Volume</span>`;
             }
         }
 
@@ -507,18 +581,18 @@
 
         function fireConfetti() {
             var duration = 3 * 1000; var end = Date.now() + duration;
-            const cStart = getComputedStyle(document.documentElement).getPropertyValue('--theme-grad-start').trim();
-            const cEnd = getComputedStyle(document.documentElement).getPropertyValue('--theme-grad-end').trim();
+            const tColor = getComputedStyle(document.documentElement).getPropertyValue('--theme-color').trim();
+            const green = getComputedStyle(document.documentElement).getPropertyValue('--emerald-green').trim();
             
             (function frame() {
-                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: [cStart, cEnd, '#00e676'] });
-                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: [cStart, cEnd, '#00e676'] });
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: [tColor, green, '#f59e0b'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: [tColor, green, '#f59e0b'] });
                 if (Date.now() < end) requestAnimationFrame(frame);
             }());
         }
 
         function updateRPGStats() {
-            let totalVol = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || []).reduce((sum, log) => sum + (log.volume || 0), 0);
+            let totalVol = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryExact')) || []).reduce((sum, log) => sum + (log.volume || 0), 0);
             document.getElementById('rpg-lifetime-vol').innerText = totalVol.toLocaleString();
             const ranks = [
                 { limit: 0, name: "Iron Novice" }, { limit: 10000, name: "Bronze Warrior" },
@@ -534,7 +608,7 @@
         }
 
         function updateRecoveryStatus() {
-            const history = JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || [];
+            const history = JSON.parse(localStorage.getItem('pwaWorkoutHistoryExact')) || [];
             const now = Date.now();
             let lastTrained = { back: 0, leg: 0, chest: 0 };
             history.forEach(log => { if (log.id > lastTrained[log.category]) lastTrained[log.category] = log.id; });
@@ -546,14 +620,14 @@
                 let statusClass = 'rec-theme', statusText = 'Fresh';
                 if (lastTrained[cat] !== 0 && hoursPassed < 48) { statusClass = 'rec-red'; statusText = 'Fatigued'; }
                 let name = cat === 'back' ? 'Back' : cat === 'leg' ? 'Legs' : 'Chest';
-                grid.innerHTML += `<div class="rec-box ${statusClass}">${name}<br><span style="font-size:10px; font-weight:500;">${statusText}</span></div>`;
+                grid.innerHTML += `<div class="rec-box ${statusClass}">${name}<br><span style="font-size:9px; font-weight:600;">${statusText}</span></div>`;
             });
         }
 
         function renderHeatmap() {
             const grid = document.getElementById('heatmapGrid');
             grid.innerHTML = '';
-            const history = JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || [];
+            const history = JSON.parse(localStorage.getItem('pwaWorkoutHistoryExact')) || [];
             let activeDays = new Set(history.map(h => new Date(h.id).toDateString()));
 
             for (let i = 20; i >= 0; i--) {
@@ -564,7 +638,7 @@
         }
 
         function updatePlaceholders(day) {
-            const lastLog = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || []).find(i => i.category === day);
+            const lastLog = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryExact')) || []).find(i => i.category === day);
             if (!lastLog || !lastLog.parsedData) return;
             document.getElementById(`${day}-page`).querySelectorAll('.exercise-card').forEach(card => {
                 const vals = lastLog.parsedData[card.getAttribute('data-ex')];
@@ -575,7 +649,7 @@
         function saveWorkout(categoryKey, workoutType) {
             const page = document.getElementById(`${categoryKey}-page`);
             let workoutSummary = [], parsedData = {}, sessionVolume = 0, prList = [];
-            let prHistory = JSON.parse(localStorage.getItem('workoutPersonalRecordsElite')) || {};
+            let prHistory = JSON.parse(localStorage.getItem('workoutPersonalRecordsExact')) || {};
 
             page.querySelectorAll('.exercise-card').forEach(card => {
                 const exName = card.getAttribute('data-ex'), inputs = card.querySelectorAll('input');
@@ -595,90 +669,121 @@
                 parsedData[exName] = numWeights;
             });
 
-            localStorage.setItem('workoutPersonalRecordsElite', JSON.stringify(prHistory));
+            localStorage.setItem('workoutPersonalRecordsExact', JSON.stringify(prHistory));
             const durationMin = Math.max(1, Math.round((Date.now() - workoutStartTime) / 60000));
             const dateStr = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
             
-            let history = JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || [];
+            let history = JSON.parse(localStorage.getItem('pwaWorkoutHistoryExact')) || [];
             
-            // Calculate Growth for celebration popup BEFORE unshifting new history
             let growthHtml = '';
             const catHistory = history.filter(i => i.category === categoryKey);
             if(catHistory.length > 0) {
                 let diff = sessionVolume - catHistory[0].volume;
-                if(diff > 0) growthHtml = `<div style="margin-top:10px; color:#00e676; font-size:13px;">📈 <b>Growth:</b> +${diff.toLocaleString()} kg from last week!</div>`;
-                else if(diff < 0) growthHtml = `<div style="margin-top:10px; color:#ef4444; font-size:13px;">📉 <b>Degrowth:</b> ${diff.toLocaleString()} kg from last week.</div>`;
-                else growthHtml = `<div style="margin-top:10px; color:#fbbf24; font-size:13px;">⚖️ <b>Maintained:</b> Exact same volume.</div>`;
+                if(diff > 0) growthHtml = `<div style="margin-top:10px; color:var(--emerald-green); font-size:13px;">📈 <b>Growth:</b> +${diff.toLocaleString()} kg from last week!</div>`;
+                else if(diff < 0) growthHtml = `<div style="margin-top:10px; color:#f43f5e; font-size:13px;">📉 <b>Degrowth:</b> ${diff.toLocaleString()} kg from last week.</div>`;
+                else growthHtml = `<div style="margin-top:10px; color:#f59e0b; font-size:13px;">⚖️ <b>Maintained:</b> Exact same volume.</div>`;
             }
 
             history.unshift({ id: Date.now(), category: categoryKey, type: workoutType, date: dateStr, summary: workoutSummary, parsedData: parsedData, volume: sessionVolume, duration: durationMin });
-            localStorage.setItem('pwaWorkoutHistoryElite', JSON.stringify(history));
+            localStorage.setItem('pwaWorkoutHistoryExact', JSON.stringify(history));
 
             page.querySelectorAll('.set-row').forEach(r => r.classList.remove('completed'));
             page.querySelectorAll('input').forEach(inp => inp.value = '');
 
-            updateRPGStats(); updateRecoveryStatus(); renderHeatmap(); updateGrowthStats(categoryKey);
+            updateRPGStats(); 
+            updateRecoveryStatus(); 
+            renderHeatmap(); 
+            updateGrowthStats(categoryKey);
             
             document.getElementById('celebrationStats').innerHTML = `
-                <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>⚡ Routine:</span> <b style="color:var(--theme-grad-end);">${workoutType}</b></div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>⚡ Routine:</span> <b style="color:var(--theme-color);">${workoutType}</b></div>
                 <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>⏱️ Duration:</span> <b>~${durationMin} mins</b></div>
-                <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>🏋️ Volume:</span> <b style="color:var(--theme-grad-end);">${sessionVolume.toLocaleString()} kg</b></div>
-                <div style="display:flex; justify-content:space-between; border-top: 1px solid rgba(255,255,255,0.08); padding-top:10px; margin-top:10px;"><span>🏅 Rank:</span> <b>${document.getElementById('rpg-rank-text').innerText} (${document.getElementById('rpg-level-text').innerText})</b></div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>🏋️ Volume:</span> <b style="color:var(--theme-color);">${sessionVolume.toLocaleString()} kg</b></div>
+                <div style="display:flex; justify-content:space-between; border-top: 1px solid var(--card-border); padding-top:10px; margin-top:10px;"><span>🏅 Rank:</span> <b>${document.getElementById('rpg-rank-text').innerText} (${document.getElementById('rpg-level-text').innerText})</b></div>
                 ${growthHtml}
-                ${prList.length > 0 ? `<div style="margin-top:15px; color:#fbbf24; font-size:13px;">🔥 <b>New PRs:</b> ${prList.join(', ')}</div>` : ''}
+                ${prList.length > 0 ? `<div style="margin-top:12px; color:#f59e0b; font-size:12px;">🔥 <b>New PRs:</b> ${prList.join(', ')}</div>` : ''}
             `;
-            openModal('celebrationModal'); fireConfetti(); renderHistory(categoryKey); updatePlaceholders(categoryKey); renderLineChart(); renderRadarChart();
+            openModal('celebrationModal'); 
+            fireConfetti(); 
+            renderHistory(categoryKey); 
+            updatePlaceholders(categoryKey); 
+            renderLineChart(); 
+            renderRadarChart();
         }
 
         function renderHistory(categoryKey) {
             document.getElementById('active-history-title').innerText = categoryKey.toUpperCase();
-            const filtered = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || []).filter(i => i.category === categoryKey);
+            const filtered = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryExact')) || []).filter(i => i.category === categoryKey);
             const container = document.getElementById('history-log');
-            if (filtered.length === 0) return container.innerHTML = `<p style="color: var(--text-muted); font-size:13px;">No history recorded yet.</p>`;
+            if (filtered.length === 0) return container.innerHTML = `<p style="color: var(--text-muted); font-size:12px;">No history recorded yet.</p>`;
             container.innerHTML = filtered.map(item => `
                 <div class="history-item">
                     <button class="delete-log-btn" onclick="deleteLog(${item.id})">Delete</button>
-                    📍 <span class="history-date">${item.date}</span> <span style="color:var(--text-muted); margin-left:8px;">(${item.volume ? item.volume.toLocaleString() : 0}kg vol)</span><br>
-                    <div style="margin-top:8px;">${item.summary.join('<br>')}</div>
+                    📍 <span class="history-date">${item.date}</span> <span style="color:var(--text-muted); margin-left:6px;">(${item.volume ? item.volume.toLocaleString() : 0}kg vol)</span><br>
+                    <div style="margin-top:6px;">${item.summary.join('<br>')}</div>
                 </div>`).join('');
         }
         function deleteLog(id) {
             if (confirm("Delete this log?")) {
-                let h = JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || []; localStorage.setItem('pwaWorkoutHistoryElite', JSON.stringify(h.filter(i => i.id !== id)));
-                renderHistory(currentActiveTab); renderLineChart(); renderRadarChart(); updateRPGStats(); updateRecoveryStatus(); renderHeatmap(); updateGrowthStats(currentActiveTab);
+                let h = JSON.parse(localStorage.getItem('pwaWorkoutHistoryExact')) || []; 
+                localStorage.setItem('pwaWorkoutHistoryExact', JSON.stringify(h.filter(i => i.id !== id)));
+                renderHistory(currentActiveTab); 
+                renderLineChart(); 
+                renderRadarChart(); 
+                updateRPGStats(); 
+                updateRecoveryStatus(); 
+                renderHeatmap(); 
+                updateGrowthStats(currentActiveTab);
             }
         }
         
-        Chart.defaults.color = '#a1a1aa'; Chart.defaults.font.family = 'Inter';
+        Chart.defaults.font.family = 'Inter';
         function renderLineChart() {
             const ctx = document.getElementById('progressChart').getContext('2d');
-            const data = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || []).filter(i => i.category === currentActiveTab).slice(0, 5).reverse();
+            const data = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryExact')) || []).filter(i => i.category === currentActiveTab).slice(0, 5).reverse();
             
-            const tColor = getComputedStyle(document.documentElement).getPropertyValue('--theme-grad-end').trim();
-            const tGlow = getComputedStyle(document.documentElement).getPropertyValue('--theme-bg-subtle').trim();
+            const isLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+            Chart.defaults.color = isLight ? '#64748b' : '#a1a1aa';
+            const gridColor = isLight ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.04)';
+
+            const tColor = getComputedStyle(document.documentElement).getPropertyValue('--theme-color').trim();
+            const tGlow = getComputedStyle(document.documentElement).getPropertyValue('--theme-light-bg').trim();
 
             let ds = [];
-            if (currentActiveTab === 'back') ds.push({ label: 'Lat Pulldown', data: data.map(h => h.parsedData['Shoulder-Width Lat Pulldown']?.[0]||0), borderColor: tColor, backgroundColor: tGlow, fill: true, tension: 0.4, borderWidth:3, pointRadius: 4 });
-            else if (currentActiveTab === 'leg') ds.push({ label: 'Back Squat', data: data.map(h => h.parsedData['Barbell Back Squat']?.[0]||0), borderColor: tColor, backgroundColor: tGlow, fill: true, tension: 0.4, borderWidth:3, pointRadius: 4 });
-            else if (currentActiveTab === 'chest') ds.push({ label: 'Bench Press', data: data.map(h => h.parsedData['Flat Barbell Bench Press']?.[0]||0), borderColor: tColor, backgroundColor: tGlow, fill: true, tension: 0.4, borderWidth:3, pointRadius: 4 });
+            if (currentActiveTab === 'back') ds.push({ label: 'Lat Pulldown', data: data.map(h => h.parsedData['Shoulder-Width Lat Pulldown']?.[0]||0), borderColor: tColor, backgroundColor: tGlow, fill: true, tension: 0.35, borderWidth:2.5, pointRadius: 4 });
+            else if (currentActiveTab === 'leg') ds.push({ label: 'Back Squat', data: data.map(h => h.parsedData['Barbell Back Squat']?.[0]||0), borderColor: tColor, backgroundColor: tGlow, fill: true, tension: 0.35, borderWidth:2.5, pointRadius: 4 });
+            else if (currentActiveTab === 'chest') ds.push({ label: 'Bench Press', data: data.map(h => h.parsedData['Flat Barbell Bench Press']?.[0]||0), borderColor: tColor, backgroundColor: tGlow, fill: true, tension: 0.35, borderWidth:2.5, pointRadius: 4 });
             
             if (lineChartInstance) lineChartInstance.destroy();
-            lineChartInstance = new Chart(ctx, { type: 'line', data: { labels: data.map(i => i.date), datasets: ds }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.03)' }, beginAtZero: true, border:{display:false} }, x: { grid: { display: false }, border:{display:false} } } } });
+            lineChartInstance = new Chart(ctx, { type: 'line', data: { labels: data.map(i => i.date), datasets: ds }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: gridColor }, beginAtZero: true, border:{display:false} }, x: { grid: { display: false }, border:{display:false} } } } });
         }
         
         function renderRadarChart() {
             const ctx = document.getElementById('radarChart').getContext('2d');
             let vols = { back: 0, chest: 0, leg: 0 };
-            (JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || []).forEach(h => { if(vols[h.category] !== undefined) vols[h.category] += (h.volume || 0); });
+            (JSON.parse(localStorage.getItem('pwaWorkoutHistoryExact')) || []).forEach(h => { if(vols[h.category] !== undefined) vols[h.category] += (h.volume || 0); });
             
-            const tColor = getComputedStyle(document.documentElement).getPropertyValue('--theme-grad-end').trim();
-            const tGlow = getComputedStyle(document.documentElement).getPropertyValue('--theme-glow').trim();
+            const isLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+            const gridColor = isLight ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.05)';
+            const labelColor = isLight ? '#1e293b' : '#f5f5f3';
+
+            const tColor = getComputedStyle(document.documentElement).getPropertyValue('--theme-color').trim();
+            const tGlow = getComputedStyle(document.documentElement).getPropertyValue('--theme-light-bg').trim();
 
             if (radarChartInstance) radarChartInstance.destroy();
-            radarChartInstance = new Chart(ctx, { type: 'radar', data: { labels: ['Back & Pull', 'Legs & Core', 'Chest & Push'], datasets: [{ label: 'Lifetime Volume', data: [vols.back, vols.leg, vols.chest], backgroundColor: tGlow, borderColor: tColor, pointBackgroundColor: tColor, pointBorderColor: '#fff', borderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { r: { angleLines: { color: 'rgba(255,255,255,0.05)' }, grid: { color: 'rgba(255,255,255,0.05)' }, pointLabels: { color: '#e4e4e7', font: { size: 11, weight: '700' } }, ticks: { display: false } } } } });
+            radarChartInstance = new Chart(ctx, { type: 'radar', data: { labels: ['Back & Pull', 'Legs & Core', 'Chest & Push'], datasets: [{ label: 'Lifetime Volume', data: [vols.back, vols.leg, vols.chest], backgroundColor: tGlow, borderColor: tColor, pointBackgroundColor: tColor, pointBorderColor: '#fff', borderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { r: { angleLines: { color: gridColor }, grid: { color: gridColor }, pointLabels: { color: labelColor, font: { size: 11, weight: '700' } }, ticks: { display: false } } } } });
         }
 
-        function shareGraphic() { html2canvas(document.getElementById('share-card-wrap'), { backgroundColor: '#050505', scale: 3 }).then(canvas => { let link = document.createElement('a'); link.download = `Aesthetic_Tracker_${new Date().getTime()}.png`; link.href = canvas.toDataURL("image/png"); link.click(); }); }
+        function shareGraphic() { 
+            const isLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+            const bgColor = isLight ? '#F5F5F3' : '#000000';
+            html2canvas(document.getElementById('share-card-wrap'), { backgroundColor: bgColor, scale: 3 }).then(canvas => { 
+                let link = document.createElement('a'); 
+                link.download = `Workout_${new Date().getTime()}.png`; 
+                link.href = canvas.toDataURL("image/png"); 
+                link.click(); 
+            }); 
+        }
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
@@ -686,16 +791,16 @@
         function openExHistory(exName) {
             document.getElementById('exHistoryTitle').innerText = exName + " History";
             const hList = document.getElementById('exHistoryList');
-            const data = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryElite')) || []).filter(log => log.parsedData && log.parsedData[exName]);
+            const data = (JSON.parse(localStorage.getItem('pwaWorkoutHistoryExact')) || []).filter(log => log.parsedData && log.parsedData[exName]);
             if (data.length === 0) { hList.innerHTML = "No past data found."; } 
             else {
-                hList.innerHTML = data.slice(0, 7).map(d => `<div style="border-bottom:1px solid rgba(255,255,255,0.05); padding:10px 0;"><b>${d.date}</b><br><span style="color:var(--theme-grad-end)">${d.parsedData[exName].join('kg, ')}kg</span></div>`).join('');
+                hList.innerHTML = data.slice(0, 7).map(d => `<div style="border-bottom:1px solid var(--card-border); padding:8px 0;"><b>${d.date}</b><br><span style="color:var(--theme-color)">${d.parsedData[exName].join('kg, ')}kg</span></div>`).join('');
             }
             openModal('exHistoryModal');
         }
 
-        function exportData() { const a = document.createElement('a'); a.download = 'WorkoutBackup.json'; a.href = URL.createObjectURL(new Blob([localStorage.getItem('pwaWorkoutHistoryElite') || "[]"], { type: 'application/json' })); a.click(); }
-        function importData(e) { const r = new FileReader(); r.onload = (ev) => { try { localStorage.setItem('pwaWorkoutHistoryElite', JSON.stringify(JSON.parse(ev.target.result))); initApp(); alert('Success!'); } catch(err){ alert('Error!'); } }; if (e.target.files[0]) r.readAsText(e.target.files[0]); }
+        function exportData() { const a = document.createElement('a'); a.download = 'WorkoutBackup.json'; a.href = URL.createObjectURL(new Blob([localStorage.getItem('pwaWorkoutHistoryExact') || "[]"], { type: 'application/json' })); a.click(); }
+        function importData(e) { const r = new FileReader(); r.onload = (ev) => { try { localStorage.setItem('pwaWorkoutHistoryExact', JSON.stringify(JSON.parse(ev.target.result))); initApp(); alert('Success!'); } catch(err){ alert('Error!'); } }; if (e.target.files[0]) r.readAsText(e.target.files[0]); }
 
         if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
         window.onload = initApp;
